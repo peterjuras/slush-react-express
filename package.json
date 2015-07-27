@@ -1,0 +1,29 @@
+{
+  "name": "slush-azure-express",
+  "version": "1.0.0",
+  "description": "A generator for an express web app that will be hosted in Azure",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterjuras/azure-express-generator.git"
+  },
+  "keywords": [
+    "slushgenerator",
+    "node",
+    "Azure",
+    "express"
+  ],
+  "author": "Peter Juras",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterjuras/azure-express-generator/issues"
+  },
+  "homepage": "https://github.com/peterjuras/azure-express-generator#readme",
+  "dependencies": {
+    "event-stream": "^3.3.1",
+    "gulp": "^3.9.0",
+    "gulp-conflict": "^0.4.0",
+    "gulp-install": "^0.4.0",
+    "gulp-template": "^3.0.0",
+    "inquirer": "^0.9.0"
+  }
+}

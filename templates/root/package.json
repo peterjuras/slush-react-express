@@ -1,0 +1,15 @@
+{
+  "name": "<%= appname %>",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "body-parser": "*",
+    "cookie-parser": "*"<%= packages %>
+  },
+  "devDependencies": {
+    "gulp": "*"
+  }
+}
