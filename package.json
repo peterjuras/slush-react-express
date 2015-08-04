@@ -1,5 +1,5 @@
 {
-  "name": "slush-azure-node-express",
+  "name": "slush-azure-node",
   "version": "1.0.0",
   "description": "A generator for a node express web app that will be hosted in Azure",
   "repository": {
