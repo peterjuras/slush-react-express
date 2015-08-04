@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     inquirer = require('inquirer'),
     tsd = require('gulp-tsd');
 
-var destination = 'test/';
+var destination = process.env.testDest || './';
 
 gulp.task('default', ['tsd']);
 

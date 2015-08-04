@@ -1,7 +1,7 @@
 {
-  "name": "slush-azure-express",
+  "name": "slush-azure-node-express",
   "version": "1.0.0",
-  "description": "A generator for an express web app that will be hosted in Azure",
+  "description": "A generator for a node express web app that will be hosted in Azure",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peterjuras/azure-express-generator.git"
