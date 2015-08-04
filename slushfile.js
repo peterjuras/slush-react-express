@@ -29,13 +29,16 @@ gulp.task('generate', function (done) {
       return done();
     }
 
+    answers.tsignore = '';
     answers = addPackages(answers);
     answers = cleanName(answers);
 
     var scriptDir = 'javascript';
     if (useTypescript(answers)) {
       scriptDir = 'typescript';
+      answers.tsignore = '*.js\n**/**.js\ntypings\n';
     }
+
     gulp.src([__dirname + '/templates/' + scriptDir + '/**',
         '!' + __dirname + '/templates/' + scriptDir + '/typings',
         '!' + __dirname + '/templates/' + scriptDir + '/typings/**'])  // Note use of __dirname to be relative to generator
@@ -50,7 +53,7 @@ gulp.task('generate', function (done) {
     gulp.src([
         __dirname + '/templates/root/**',
         '!' + __dirname + '/templates/root/src/favicon.ico',
-      ])  // Note use of __dirname to be relative to generator
+      ], { dot: true })  // Note use of __dirname to be relative to generator
       .pipe(template(answers))                 // Lodash template support
       .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
       .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
