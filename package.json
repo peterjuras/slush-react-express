@@ -4,7 +4,7 @@
   "description": "A generator for a node express web app that will be hosted in Azure",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peterjuras/azure-express-generator.git"
+    "url": "git+https://github.com/peterjuras/slush-azure-node.git"
   },
   "keywords": [
     "slushgenerator",
