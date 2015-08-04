@@ -73,17 +73,18 @@ function addPackages(answers) {
   answers.devPackages = '';
 
   if (useTypescript(answers)) {
-    devPackages.push('gulp-typescript');
-    devPackages.push('typescript-require');
-    devPackages.push('typescript-node');
-    devPackages.push('del');
+    devPackages.push(['gulp-typescript', '^2.8.0']);
+    devPackages.push(['typescript', '^1.5.0']);
+    devPackages.push(['typescript-require', '^0.2.9']);
+    devPackages.push(['typescript-node', '^0.0.7']);
+    devPackages.push(['del', '^1.2.0']);
   }
 
   packages.forEach(function(package, index) {
-    answers.packages += packageDelimiter + '"' + package + '": "*"';
+    answers.packages += packageDelimiter + '"' + package[0] + '": "' + package[1] + '"';
   });
   devPackages.forEach(function(package, index) {
-    answers.devPackages += packageDelimiter + '"' + package + '": "*"';
+    answers.devPackages += packageDelimiter + '"' + package[0] + '": "' + package[1] + '"';
   });
   return answers;
 }
