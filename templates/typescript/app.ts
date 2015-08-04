@@ -1,13 +1,15 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import express = require('express');
+import path = require('path');
+import cookieParser = require('cookie-parser');
+import bodyParser = require('body-parser');
+import favicon = require('serve-favicon');
 
 var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // This line will only be in effect when node is
 // not run within IIS
@@ -19,10 +21,10 @@ var index = require('./routes/index');
 app.use('/api', index);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  var err : any = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-module.exports = app;
+export = app;

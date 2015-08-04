@@ -7,9 +7,12 @@
   "dependencies": {
     "express": "*",
     "body-parser": "*",
-    "cookie-parser": "*"<%= packages %>
+    "cookie-parser": "*",
+    "serve-favicon": "*"<%= packages %>
   },
   "devDependencies": {
-    "gulp": "*"
+    "gulp": "*",
+    "merge-stream": "*",
+    "gulp-install": "*"<%= devPackages %>
   }
 }

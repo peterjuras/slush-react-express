@@ -1,0 +1,48 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "node/node.d.ts": {
+      "commit": "7cbd20c85278b113ec28404416cbcb2d86c72d99"
+    },
+    "merge-stream/merge-stream.d.ts": {
+      "commit": "7cbd20c85278b113ec28404416cbcb2d86c72d99"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "7cbd20c85278b113ec28404416cbcb2d86c72d99"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "af3eba9b7707e37338ff62bbdf473125c1a97e13"
+    },
+    "mime/mime.d.ts": {
+      "commit": "af3eba9b7707e37338ff62bbdf473125c1a97e13"
+    },
+    "express/express.d.ts": {
+      "commit": "af3eba9b7707e37338ff62bbdf473125c1a97e13"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "af3eba9b7707e37338ff62bbdf473125c1a97e13"
+    },
+    "cookie-parser/cookie-parser.d.ts": {
+      "commit": "af3eba9b7707e37338ff62bbdf473125c1a97e13"
+    },
+    "gulp-typescript/gulp-typescript.d.ts": {
+      "commit": "73e4b46719dd2e425b4daf850d64cc5b1f753706"
+    },
+    "minimatch/minimatch.d.ts": {
+      "commit": "7c27233ae47768442b9b0a40d7f03fadf593fad2"
+    },
+    "glob/glob.d.ts": {
+      "commit": "7c27233ae47768442b9b0a40d7f03fadf593fad2"
+    },
+    "del/del.d.ts": {
+      "commit": "7c27233ae47768442b9b0a40d7f03fadf593fad2"
+    },
+    "serve-favicon/serve-favicon.d.ts": {
+      "commit": "b0d313e1b10be5cdbd47f8bdadd888f066a626bd"
+    }
+  }
+}

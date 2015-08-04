@@ -1,5 +1,5 @@
-var app = require('./app');
-var http = require('http');
+import app = require('./app');
+import http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -37,11 +37,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -54,5 +54,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
+  console.log(`Listening on ${bind}`);
 }

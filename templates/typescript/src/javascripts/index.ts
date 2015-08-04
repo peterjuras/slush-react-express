@@ -1,4 +1,4 @@
-var xmlHttp = null;
+var xmlHttp : XMLHttpRequest = null;
 
 function getAppName() {
   xmlHttp = new XMLHttpRequest();

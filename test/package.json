@@ -7,9 +7,16 @@
   "dependencies": {
     "express": "*",
     "body-parser": "*",
-    "cookie-parser": "*"
+    "cookie-parser": "*",
+    "serve-favicon": "*"
   },
   "devDependencies": {
-    "gulp": "*"
+    "gulp": "*",
+    "merge-stream": "*",
+    "gulp-install": "*",
+		"gulp-typescript": "*",
+		"typescript-require": "*",
+		"typescript-node": "*",
+		"del": "*"
   }
 }
