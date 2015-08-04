@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     template = require('gulp-template'),
     es = require('event-stream'),
     inquirer = require('inquirer'),
+    rename = require('gulp-rename'),
     tsd = require('gulp-tsd');
 
 var destination = process.env.testDest || './';
@@ -55,6 +56,11 @@ gulp.task('generate', function (done) {
         '!' + __dirname + '/templates/root/src/favicon.ico',
       ], { dot: true })  // Note use of __dirname to be relative to generator
       .pipe(template(answers))                 // Lodash template support
+      .pipe(rename(function(path) {
+        if (path.basename === '.npmignore') {
+          path.basename = '.gitignore';
+        }
+      }))
       .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
       .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
       .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
