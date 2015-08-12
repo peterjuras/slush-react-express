@@ -1,14 +1,12 @@
-require('typescript-require')({nodeLib: true});
-
-import gulp = require('gulp');
-import merge = require('merge-stream');
-import del = require('del');
+var gulp = require('gulp');
+var merge = require('merge-stream');
+var del = require('del');
 var install = require('gulp-install');
+var ts = require('gulp-typescript');
 
-import ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
 
-gulp.task('build', ['move:src'], () => {
+gulp.task('build', ['move:src'], function() {
   del(['./build/src/**/**', './build/src']);
 
   return gulp.src('build/package.json')
@@ -17,7 +15,7 @@ gulp.task('build', ['move:src'], () => {
     }));
 });
 
-gulp.task('copy:client', () => {
+gulp.task('copy:client', function() {
   var js = gulp.src('src/**.ts',
     {
       root: './'
@@ -32,15 +30,14 @@ gulp.task('copy:client', () => {
   return merge(js, html);
 });
 
-gulp.task('move:src', ['copy'], () => {
+gulp.task('move:src', ['copy'], function() {
   return gulp.src('./build/src/**/**')
     .pipe(gulp.dest('./build/public'));
 });
 
-gulp.task('copy', () => {
+gulp.task('copy', function() {
   var js = gulp.src([
     '**/**.ts',
-    '!gulpfile.ts',
     '!node_modules', '!node_modules/**'
     ], {
       root: './'
@@ -52,7 +49,7 @@ gulp.task('copy', () => {
   var misc = gulp.src([
     '**/**.*',
     '!**/**.ts',
-    '!gulpfile.ts',
+    '!gulpfile.js',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**',
     '!typings', '!typings/**',
@@ -64,6 +61,6 @@ gulp.task('copy', () => {
   return merge(js, misc);
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', function() {
   gulp.watch('**/**.ts', ['move:src'])
 });

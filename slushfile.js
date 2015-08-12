@@ -37,7 +37,7 @@ gulp.task('generate', function (done) {
     var scriptDir = 'javascript';
     if (useTypescript(answers)) {
       scriptDir = 'typescript';
-      answers.tsignore = '*.js\n**/**.js\ntypings\n';
+      answers.tsignore = '*.js\n**/**.js\ntypings\n!gulpfile.js\n';
     }
 
     gulp.src([__dirname + '/templates/' + scriptDir + '/**',
@@ -80,9 +80,9 @@ function addPackages(answers) {
 
   if (useTypescript(answers)) {
     devPackages.push(['gulp-typescript', '^2.8.0']);
-    devPackages.push(['typescript', '^1.5.0']);
-    devPackages.push(['typescript-require', '^0.2.9']);
-    devPackages.push(['typescript-node', '^0.0.7']);
+    // devPackages.push(['typescript', '^1.5.0']);
+    // devPackages.push(['typescript-require', '^0.2.9']);
+    // devPackages.push(['typescript-node', '^0.0.7']);
     devPackages.push(['del', '^1.2.0']);
   }
 
