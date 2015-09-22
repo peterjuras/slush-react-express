@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     es = require('event-stream'),
     inquirer = require('inquirer'),
     rename = require('gulp-rename'),
+    emptyDir = require('empty-dir'),
     tsd = require('gulp-tsd');
 
 var destination = process.env.testDest || './';
@@ -14,60 +15,71 @@ gulp.task('default', ['generate']);
 gulp.task('generate', function (done) {
   var workingDirName = process.cwd().split('/').pop().split('\\').pop();
 
-  inquirer.prompt([
-    {type: 'input', name: 'appname', message: 'What will your app be called?', default: workingDirName},
-    {type: 'input', name: 'ts', message: 'typescript or javascript?', default: 'javascript'}
-  ],
-  function (answers) {
-    if (!answers.appname) {
-      return done();
+  emptyDir('./', function (err, dirEmpty) {
+    var questions = [
+      {type: 'input', name: 'appname', message: 'What will your app be called?', default: workingDirName},
+      {type: 'input', name: 'ts', message: 'typescript or javascript?', default: 'javascript'}
+    ];
+    if (destination === './' && !dirEmpty) {
+      questions.push({
+        type: 'input', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder? (yes/no)', default: 'yes'
+      });
     }
+    inquirer.prompt(questions, function (answers) {
+      if (!answers.appname) {
+        return done();
+      }
 
-    answers.tsignore = '';
-    answers = addPackages(answers);
-    answers = cleanName(answers);
+      answers.tsignore = '';
+      answers = addPackages(answers);
+      answers = cleanName(answers);
 
-    var scriptDir = 'javascript';
-    if (useTypescript(answers)) {
-      scriptDir = 'typescript';
-      answers.tsignore = '*.js\n**/**.js\ntypings\n!gulpfile.js\n';
-    }
+      if (answers.createDir && answers.createDir === 'yes') {
+        destination = destination + answers.appname + '/';
+      }
 
-    gulp.src([__dirname + '/templates/' + scriptDir + '/**',
-        '!' + __dirname + '/templates/' + scriptDir + '/typings',
-        '!' + __dirname + '/templates/' + scriptDir + '/typings/**'])  // Note use of __dirname to be relative to generator
-      .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))                 // Lodash template support
-      .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
-      .pipe(gulp.dest(destination));                   // Without __dirname here = relative to cwd
+      var scriptDir = 'javascript';
+      if (useTypescript(answers)) {
+        scriptDir = 'typescript';
+        answers.tsignore = '*.js\n**/**.js\ntypings\n!gulpfile.js\n';
+      }
 
-    gulp.src(__dirname + '/templates/root/src/favicon.ico')
-      .pipe(conflict(destination + '/src/'))
-      .pipe(gulp.dest(destination + '/src/'));
+      gulp.src([__dirname + '/templates/' + scriptDir + '/**',
+          '!' + __dirname + '/templates/' + scriptDir + '/typings',
+          '!' + __dirname + '/templates/' + scriptDir + '/typings/**'])  // Note use of __dirname to be relative to generator
+        .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))                 // Lodash template support
+        .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
+        .pipe(gulp.dest(destination));                   // Without __dirname here = relative to cwd
 
-    gulp.src([
-        __dirname + '/templates/root/**',
-        '!' + __dirname + '/templates/root/src/favicon.ico',
-      ], { dot: true })  // Note use of __dirname to be relative to generator
-      .pipe(template(answers))                 // Lodash template support
-      .pipe(rename(function(path) {
-        if (path.basename === '.npmignore') {
-          path.basename = '.gitignore';
-        }
-      }))
-      .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
-      .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
-      .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
-      .on('end', function () {
-        if (useTypescript(answers)) {
-          tsd({
-              command: 'reinstall',
-              config: destination + '/tsd.json'
-          }, done);
-        } else {
-          done();       // Finished!
-        }
-      })
-      .resume();
+      gulp.src(__dirname + '/templates/root/src/favicon.ico')
+        .pipe(conflict(destination + '/src/'))
+        .pipe(gulp.dest(destination + '/src/'));
+
+      gulp.src([
+          __dirname + '/templates/root/**',
+          '!' + __dirname + '/templates/root/src/favicon.ico',
+        ], { dot: true })  // Note use of __dirname to be relative to generator
+        .pipe(template(answers))                 // Lodash template support
+        .pipe(rename(function(path) {
+          if (path.basename === '.npmignore') {
+            path.basename = '.gitignore';
+          }
+        }))
+        .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
+        .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
+        .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
+        .on('end', function () {
+          if (useTypescript(answers)) {
+            tsd({
+                command: 'reinstall',
+                config: destination + '/tsd.json'
+            }, done);
+          } else {
+            done();       // Finished!
+          }
+        })
+        .resume();
+    });
   });
 });
 
