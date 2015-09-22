@@ -9,14 +9,7 @@ var gulp = require('gulp'),
 
 var destination = process.env.testDest || './';
 
-gulp.task('default', ['tsd']);
-
-gulp.task('tsd', ['generate'], function (callback) {
-    tsd({
-        command: 'reinstall',
-        config: destination + 'tsd.json'
-    }, callback);
-});
+gulp.task('default', ['generate']);
 
 gulp.task('generate', function (done) {
   var workingDirName = process.cwd().split('/').pop().split('\\').pop();
@@ -65,7 +58,14 @@ gulp.task('generate', function (done) {
       .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
       .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
       .on('end', function () {
-            done();       // Finished!
+        if (useTypescript(answers)) {
+          tsd({
+              command: 'reinstall',
+              config: destination + '/tsd.json'
+          }, done);
+        } else {
+          done();       // Finished!
+        }
       })
       .resume();
   });
