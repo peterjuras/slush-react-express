@@ -8,6 +8,7 @@ var gulpFilter = require('gulp-filter');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var install = require('gulp-install');
+var mocha = require('gulp-mocha');
 
 gulp.task('build', ['copy:client', 'copy:server'], function() {
   return gulp.src('build/package.json')
@@ -51,4 +52,15 @@ gulp.task('copy:server', function() {
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(jsFilter.restore)
     .pipe(gulp.dest('build/'));
+});
+
+gulp.task('test', ['build'], function() {
+  gulp.src('tests/**/**.*', { read: false })
+    .pipe(mocha())
+    .once('error', function () {
+      process.exit(1);
+    })
+    .once('end', function () {
+      process.exit();
+    });
 });

@@ -43,6 +43,15 @@
     },
     "serve-favicon/serve-favicon.d.ts": {
       "commit": "b0d313e1b10be5cdbd47f8bdadd888f066a626bd"
+    },
+    "mocha/mocha.d.ts": {
+      "commit": "32029fcb4e1a3ef8968711b545d77b584435729d"
+    },
+    "should/should.d.ts": {
+      "commit": "32029fcb4e1a3ef8968711b545d77b584435729d"
+    },
+    "superagent/superagent.d.ts": {
+      "commit": "32029fcb4e1a3ef8968711b545d77b584435729d"
     }
   }
 }

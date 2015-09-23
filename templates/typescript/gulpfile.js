@@ -10,11 +10,14 @@ var gulpFilter = require('gulp-filter');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var ts = require('gulp-typescript');
+var mocha = require('gulp-mocha');
 
 var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('build', ['move:src'], function() {
-  del(['./build/src/**/**', './build/src']);
+  del(['./build/src/**/**', './build/src',
+        './build/tests/**/**', './build/tests'
+      ]);
 
   return gulp.src('build/package.json')
     .pipe(install({
@@ -23,6 +26,10 @@ gulp.task('build', ['move:src'], function() {
 });
 
 gulp.task('move:src', ['copy'], function() {
+  // move tests
+  var moveTests = gulp.src('./build/tests/**/**')
+    .pipe(gulp.dest('./tests'));
+
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
@@ -72,4 +79,15 @@ gulp.task('copy', function() {
 
 gulp.task('watch', function() {
   gulp.watch('**/**.ts', ['move:src'])
+});
+
+gulp.task('test', ['build'], function() {
+  gulp.src('tests/**/**.js', { read: false })
+    .pipe(mocha())
+    // .once('error', function () {
+    //   process.exit(1);
+    // })
+    .once('end', function () {
+      process.exit();
+    });
 });
