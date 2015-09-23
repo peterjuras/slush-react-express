@@ -18,7 +18,8 @@ gulp.task('generate', function (done) {
   emptyDir('./', function (err, dirEmpty) {
     var questions = [
       {type: 'input', name: 'appname', message: 'What will your app be called?', default: workingDirName},
-      {type: 'input', name: 'ts', message: 'typescript or javascript?', default: 'javascript'}
+      {type: 'input', name: 'ts', message: 'typescript or javascript?', default: 'javascript'},
+      {type: 'input', name: 'sass', message: 'sass or css?', default: 'css'}
     ];
     if (destination === './' && !dirEmpty) {
       questions.push({
@@ -52,8 +53,23 @@ gulp.task('generate', function (done) {
         .pipe(gulp.dest(destination));                   // Without __dirname here = relative to cwd
 
       gulp.src(__dirname + '/templates/root/src/favicon.ico')
-        .pipe(conflict(destination + '/src/'))
-        .pipe(gulp.dest(destination + '/src/'));
+        .pipe(conflict(destination + 'src'))
+        .pipe(gulp.dest(destination + 'src'));
+
+      answers.sassFilter = '';
+      answers.sassPipe = '';
+      if (answers.sass.indexOf('sass') != -1) {
+        gulp.src(__dirname + '/templates/sass/**')
+          .pipe(conflict(destination + 'src'))
+          .pipe(gulp.dest(destination + 'src'));
+
+        answers.sassFilter = '\n\tvar sassFilter = gulpFilter(\'**/*.scss\', { restore: true });'
+        answers.sassPipe = '\n\t\t.pipe(sassFilter)\n\t\t.pipe(require(\'gulp-sass\')())\n\t\t.pipe(sassFilter.restore)';
+      } else {
+        gulp.src(__dirname + '/templates/css/**')
+          .pipe(conflict(destination + 'src'))
+          .pipe(gulp.dest(destination + 'src'));
+      }
 
       gulp.src([
           __dirname + '/templates/root/**',
@@ -92,10 +108,11 @@ function addPackages(answers) {
 
   if (useTypescript(answers)) {
     devPackages.push(['gulp-typescript', '^2.8.0']);
-    // devPackages.push(['typescript', '^1.5.0']);
-    // devPackages.push(['typescript-require', '^0.2.9']);
-    // devPackages.push(['typescript-node', '^0.0.7']);
     devPackages.push(['del', '^1.2.0']);
+  }
+
+  if (answers.sass.indexOf('sass') != -1) {
+    devPackages.push(['gulp-sass', '^2.0.4']);
   }
 
   packages.forEach(function(package, index) {

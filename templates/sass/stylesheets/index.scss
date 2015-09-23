@@ -1,0 +1,11 @@
+$font-stack: "Lucida Grande", Helvetica, Arial, sans-serif;
+$link-color: #00B7FF;
+
+body {
+  padding: 50px;
+  font: 14px $font-stack;
+}
+
+a {
+  color: $link-color;
+}

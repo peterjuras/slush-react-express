@@ -25,9 +25,9 @@ gulp.task('build', ['move:src'], function() {
 gulp.task('move:src', ['copy'], function() {
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
-  var cssFilter = gulpFilter('**/*.css', { restore: true });
+  var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
 
-  return gulp.src('./build/src/**/**')
+  return gulp.src('./build/src/**/**')<%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))

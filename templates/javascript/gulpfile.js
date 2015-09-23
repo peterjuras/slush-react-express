@@ -19,9 +19,9 @@ gulp.task('build', ['copy:client', 'copy:server'], function() {
 gulp.task('copy:client', function() {
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
-  var cssFilter = gulpFilter('**/*.css', { restore: true });
+  var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
 
-  return gulp.src('src/**')
+  return gulp.src('src/**')<%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))
