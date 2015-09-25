@@ -11,8 +11,13 @@ var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var ts = require('gulp-typescript');
 var mocha = require('gulp-mocha');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var tsProject = ts.createProject('tsconfig.json');
+
+gulp.task('default', ['build'], function () { });
 
 gulp.task('build', ['move:src'], function() {
   del(['./build/src/**/**', './build/src',
@@ -25,7 +30,7 @@ gulp.task('build', ['move:src'], function() {
     }));
 });
 
-gulp.task('move:src', ['copy'], function() {
+gulp.task('move:src', ['browserify'], function() {
   // move tests
   var moveTests = gulp.src('./build/tests/**/**')
     .pipe(gulp.dest('./tests'));
@@ -34,7 +39,7 @@ gulp.task('move:src', ['copy'], function() {
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
 
-  return gulp.src('./build/src/**/**')<%= sassPipe %>
+  return gulp.src(['src/**', '!src/react/**', '!src/react'])<%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))
@@ -48,9 +53,23 @@ gulp.task('move:src', ['copy'], function() {
     .pipe(gulp.dest('./build/public'));
 });
 
+gulp.task('browserify', ['copy'], function () {
+  var bundle = browserify({
+    entries: 'build/src/react/main.js'
+  });
+
+  return bundle
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(gulpIf(yargs.production, uglify()))
+    .pipe(gulp.dest('build/public/javascripts/'));
+});
+
 gulp.task('copy', function() {
   var js = gulp.src([
     '**/**.ts',
+    '**/**.tsx',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**'
     ], {
@@ -64,6 +83,7 @@ gulp.task('copy', function() {
   var misc = gulp.src([
     '**/**.*',
     '!**/**.ts',
+    '!**/**.tsx',
     '!gulpfile.js',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**',
@@ -84,9 +104,6 @@ gulp.task('watch', function() {
 gulp.task('test', ['build'], function() {
   gulp.src('tests/**/**.js', { read: false })
     .pipe(mocha())
-    // .once('error', function () {
-    //   process.exit(1);
-    // })
     .once('end', function () {
       process.exit();
     });

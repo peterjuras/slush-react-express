@@ -107,8 +107,10 @@ function addPackages(answers) {
   answers.devPackages = '';
 
   if (useTypescript(answers)) {
-    devPackages.push(['gulp-typescript', '^2.8.0']);
+    devPackages.push(['gulp-typescript', '^2.9.0']);
     devPackages.push(['del', '^1.2.0']);
+    devPackages.push(['tsify', '^0.12.1']);
+    devPackages.push(['typescript', '^1.6.2']);
   }
 
   if (answers.sass.indexOf('sass') != -1) {

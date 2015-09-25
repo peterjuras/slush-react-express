@@ -9,12 +9,31 @@ var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var install = require('gulp-install');
 var mocha = require('gulp-mocha');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
-gulp.task('build', ['copy:client', 'copy:server'], function() {
+gulp.task('default', ['build'], function () { });
+
+gulp.task('build', ['browserify', 'copy:client', 'copy:server'], function() {
   return gulp.src('build/package.json')
     .pipe(install({
       production: true
     }));
+});
+
+gulp.task('browserify', function () {
+  var bundle = browserify({
+    entries: 'src/react/main.jsx'
+  });
+
+  return bundle
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(gulpIf(yargs.production, stripDebug()))
+    .pipe(gulpIf(yargs.production, uglify()))
+    .pipe(gulp.dest('build/public/javascripts/'));
 });
 
 gulp.task('copy:client', function() {
@@ -22,7 +41,7 @@ gulp.task('copy:client', function() {
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
 
-  return gulp.src('src/**')<%= sassPipe %>
+  return gulp.src(['src/**', '!src/react/**', '!src/react'])<%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))
@@ -57,9 +76,6 @@ gulp.task('copy:server', function() {
 gulp.task('test', ['build'], function() {
   gulp.src('tests/**/**.*', { read: false })
     .pipe(mocha())
-    .once('error', function () {
-      process.exit(1);
-    })
     .once('end', function () {
       process.exit();
     });

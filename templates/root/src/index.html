@@ -2,13 +2,11 @@
 <html>
 <head>
   <link rel="stylesheet" href="stylesheets/index.css">
-  <script src="javascripts/index.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
   <title><%= appname %></title>
 </head>
 <body>
-  <h1><%= appname %></h1>
-  <p>Hello <%= appname %></p>
-  <input type="button" value="Get app name" onclick="getAppName()">
-  <p id="app_name_result"></p>
+  <div id="content"></div>
+  <script src="javascripts/main.js"></script>
 </body>
 </html>
