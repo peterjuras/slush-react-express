@@ -24,7 +24,8 @@ gulp.task('build', ['browserify', 'copy:client', 'copy:server'], function() {
 
 gulp.task('browserify', function () {
   var bundle = browserify({
-    entries: 'src/react/main.jsx'
+    entries: 'src/react/main.jsx',
+    transform: ['reactify', 'browserify-shim']
   });
 
   return bundle

@@ -109,8 +109,9 @@ function addPackages(answers) {
   if (useTypescript(answers)) {
     devPackages.push(['gulp-typescript', '^2.9.0']);
     devPackages.push(['del', '^1.2.0']);
-    devPackages.push(['tsify', '^0.12.1']);
     devPackages.push(['typescript', '^1.6.2']);
+  } else {
+    devPackages.push(['reactify', '^1.1.1']);
   }
 
   if (answers.sass.indexOf('sass') != -1) {

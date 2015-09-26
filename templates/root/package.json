@@ -6,7 +6,6 @@
   },
   "browserify": {
     "transform": [
-      "reactify",
       "browserify-shim"
     ]
   },
@@ -31,7 +30,6 @@
     "gulp-if": "^1.2.5",
     "gulp-filter": "3.0.1",
     "gulp-mocha": "^2.1.3",
-    "reactify": "^1.1.1",
     "should": "^7.1.0",
     "yargs": "^3.25.0",
     "superagent": "^1.4.0",
