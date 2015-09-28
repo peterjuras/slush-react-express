@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     emptyDir = require('empty-dir'),
     run = require('run-sequence'),
+    validateName = require('validate-npm-package-name'),
     tsd = require('gulp-tsd');
 
 var destination = process.env.testDest || './';
