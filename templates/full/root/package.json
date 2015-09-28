@@ -2,7 +2,8 @@
   "name": "<%= appname %>",
   "version": "0.0.0",
   "scripts": {
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "test": "node_modules/.bin/gulp test"
   },
   "browserify": {
     "transform": [

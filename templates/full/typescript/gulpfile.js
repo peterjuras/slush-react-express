@@ -20,6 +20,10 @@ var tsProject = ts.createProject('tsconfig.json');
 gulp.task('default', ['build'], function () { });
 
 gulp.task('build', ['move:src'], function() {
+  if (yargs['skip-build']) {
+    return;
+  }
+  
   del(['./build/src/**/**', './build/src',
         './build/tests/**/**', './build/tests'
       ]);
@@ -31,6 +35,10 @@ gulp.task('build', ['move:src'], function() {
 });
 
 gulp.task('move:src', ['browserify'], function() {
+  if (yargs['skip-build']) {
+    return;
+  }
+  
   // move tests
   var moveTests = gulp.src('./build/tests/**/**')
     .pipe(gulp.dest('./tests'));
@@ -54,6 +62,10 @@ gulp.task('move:src', ['browserify'], function() {
 });
 
 gulp.task('browserify', ['copy'], function () {
+  if (yargs['skip-build']) {
+    return;
+  }
+  
   var bundle = browserify({
     entries: 'build/src/react/main.js'
   });
@@ -67,6 +79,10 @@ gulp.task('browserify', ['copy'], function () {
 });
 
 gulp.task('copy', function() {
+  if (yargs['skip-build']) {
+    return;
+  }
+  
   var js = gulp.src([
     '**/**.ts',
     '**/**.tsx',

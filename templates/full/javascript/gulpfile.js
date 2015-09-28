@@ -15,7 +15,11 @@ var buffer = require('vinyl-buffer');
 
 gulp.task('default', ['build'], function () { });
 
-gulp.task('build', ['browserify', 'copy:client', 'copy:server'], function() {
+gulp.task('build', ['browserify', 'copy:client', 'copy:server'], function () {
+  if (yargs['skip-build']) {
+    return;
+  }
+
   return gulp.src('build/package.json')
     .pipe(install({
       production: true
@@ -23,6 +27,10 @@ gulp.task('build', ['browserify', 'copy:client', 'copy:server'], function() {
 });
 
 gulp.task('browserify', function () {
+  if (yargs['skip-build']) {
+    return;
+  }
+
   var bundle = browserify({
     entries: 'src/react/main.jsx',
     transform: ['reactify', 'browserify-shim']
@@ -37,12 +45,16 @@ gulp.task('browserify', function () {
     .pipe(gulp.dest('build/public/javascripts/'));
 });
 
-gulp.task('copy:client', function() {
+gulp.task('copy:client', function () {
+  if (yargs['skip-build']) {
+    return;
+  }
+
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
-  var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
+  var cssFilter = gulpFilter('**/*.css', { restore: true }); <%= sassFilter %>
 
-  return gulp.src(['src/**', '!src/react/**', '!src/react'])<%= sassPipe %>
+  return gulp.src(['src/**', '!src/react/**', '!src/react']) <%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))
@@ -56,7 +68,11 @@ gulp.task('copy:client', function() {
     .pipe(gulp.dest('build/public/'));
 });
 
-gulp.task('copy:server', function() {
+gulp.task('copy:server', function () {
+  if (yargs['skip-build']) {
+    return;
+  }
+
   var jsFilter = gulpFilter('**/*.js', { restore: true });
 
   return gulp.src([
@@ -65,8 +81,8 @@ gulp.task('copy:server', function() {
     '!gulpfile.js',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**'
-    ], {
-    root: './'
+  ], {
+      root: './'
     })
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
@@ -74,7 +90,7 @@ gulp.task('copy:server', function() {
     .pipe(gulp.dest('build/'));
 });
 
-gulp.task('test', ['build'], function() {
+gulp.task('test', ['build'], function () {
   gulp.src('tests/**/**.*', { read: false })
     .pipe(mocha())
     .once('end', function () {

@@ -196,7 +196,7 @@ function addPackages(answers) {
     devPackages.push(['reactify', '^1.1.1']);
   }
 
-  if (answers.sass.indexOf('sass') != -1) {
+  if (answers.sass.indexOf('SASS') != -1) {
     devPackages.push(['gulp-sass', '^2.0.4']);
   }
 
