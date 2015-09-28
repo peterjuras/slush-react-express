@@ -9,7 +9,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(`${__dirname}/public/favicon.ico`));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes go here
