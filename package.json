@@ -1,7 +1,7 @@
 {
-  "name": "slush-azure-node",
+  "name": "slush-react-express",
   "version": "1.0.0",
-  "description": "A generator for a node express web app that will be hosted in Azure",
+  "description": "A generator for a node express web app using react",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peterjuras/slush-azure-node.git"
@@ -9,7 +9,7 @@
   "keywords": [
     "slushgenerator",
     "node",
-    "Azure",
+    "react",
     "express"
   ],
   "author": "Peter Juras",
