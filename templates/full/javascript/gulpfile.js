@@ -81,9 +81,7 @@ gulp.task('copy:server', function () {
     '!gulpfile.js',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**'
-  ], {
-      root: './'
-    })
+  ])
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(jsFilter.restore)
