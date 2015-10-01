@@ -35,7 +35,7 @@ slush react-express
 
 You will now be prompted to give your new React/Express app a name, which will be dasherized and used in its `package.json` file. The chosen name will be used within the server's route and react component as well.
 
-The generator supplies two templates: A [minimal template](Minimal Template) and a [full template](Full Template) which includes advanced parts such as gulp builds, tests and more.
+The generator supplies two templates: A minimal template and a full template which includes advanced parts such as gulp builds, tests and more.
 
 ## Minimal Template 
 
