@@ -153,7 +153,10 @@ function generateFull(done) {
           .pipe(gulp.dest(destination));
       }
 
-      var filter = gulpFilter(['**/**', '!src/favicon.ico'], { restore: true });
+      var filter = gulpFilter(['**/**', '!src/favicon.ico'], { 
+        restore: true,
+        dot: true  
+      });
 
       es.concat(gulp.src(__dirname + '/templates/full/root/**', { dot: true })
         .pipe(filter)
