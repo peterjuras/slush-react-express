@@ -1,38 +1,52 @@
 import React = require('react');
 
-class NameLoaderProps {
-  public staticname: string;
-}
-
 class NameLoaderState {
-  public appname: string;
+  public appName: string;
 }
 
+class NameLoaderProps {
+  public staticName: string;
+}
+
+class NameLoaderViewProps extends NameLoaderProps {
+  public appName: string;
+  public handleClick: () => void;
+}
+
+// View that displays a button to call the server
+class NameLoaderView extends React.Component<NameLoaderViewProps, {}> {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.staticName}</h1>
+        <p>Hello {this.props.staticName}</p>
+        <input type="button" value="Get app name" onClick={this.props.handleClick} />
+        <p>{this.props.appName}</p>
+        </div>
+    );
+  }
+}
+
+// React component that handles the button click
 class NameLoader extends React.Component<NameLoaderProps, NameLoaderState> {
-  constructor(props : NameLoaderProps) {
+  constructor(props: NameLoaderProps) {
     super(props);
     this.state = {
-      appname: ''
+      appName: ''
     };
   }
   handleClick = () => {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api', true);
     xhr.onload = () => {
-      this.setState({ appname: xhr.responseText });
+      this.setState({ appName: xhr.responseText });
     }
     xhr.send();
   }
   render() {
-    return (
-      <div>
-        <h1>{this.props.staticname}</h1>
-        <p>Hello {this.props.staticname}</p>
-        <input type="button" value="Get app name" onClick={this.handleClick} />
-        <p>{this.state.appname}</p>
-      </div>
-    );
+    return <NameLoaderView staticName={this.props.staticName} appName={this.state.appName} handleClick={this.handleClick} />;
   }
 }
 
-React.render(<NameLoader staticname="<%= appname %>" />, document.getElementById('content'));
+// Tell react to render the component
+React.render(<NameLoader staticName="<%= appname %>" />, document.getElementById('content'));

@@ -6,20 +6,33 @@ var gulp = require('gulp'),
   inquirer = require('inquirer'),
   rename = require('gulp-rename'),
   emptyDir = require('empty-dir'),
+  gulpFilter = require('gulp-filter'),
   run = require('run-sequence'),
   validateName = require('validate-npm-package-name'),
+  es = require('event-stream'),
+  path = require('path'),
   readline = require('readline'),
   tsd = require('gulp-tsd');
 
+// A test destination can be used to check the generators output.
+// "test/" is recommended, since it is ignored by git
 var destination = process.env.testDest || './';
 var appName;
 
 gulp.task('default', ['generate']);
 
-gulp.task('generate', function (callback) {
+gulp.task('generate', generate);
+
+gulp.task('generate:minimal', generateMinimal);
+
+gulp.task('generate:full', generateFull);
+
+function generate(callback) {
   var workingDirName = process.cwd().split('/').pop().split('\\').pop();
 
-  console.log('Welcome to the react-express slush generator!');
+  if (process.env.NODE_ENV !== "test") {
+    console.log('Welcome to the react-express slush generator!');
+  }
   inquirer.prompt([{
     type: 'input',
     name: 'appname',
@@ -42,9 +55,9 @@ gulp.task('generate', function (callback) {
         run('generate:minimal', callback);
       }
     });
-});
+}
 
-gulp.task('generate:minimal', function (done) {
+function generateMinimal(done) {
   emptyDir('./', function (err, dirEmpty) {
     var questions = [];
     if (destination === './' && !dirEmpty) {
@@ -59,23 +72,23 @@ gulp.task('generate:minimal', function (done) {
         destination = destination + answers.appname + '/';
       }
 
-      gulp.src(__dirname + '/templates/minimal/**', { dot: true })  // Note use of __dirname to be relative to generator
-        .pipe(template(answers))                 // Lodash template support
+      gulp.src(__dirname + '/templates/minimal/**', { dot: true })
+        .pipe(template(answers))
         .pipe(rename(function (path) {
           if (path.basename === '.npmignore') {
             path.basename = '.gitignore';
           }
         }))
-        .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
-        .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
-        .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
+        .pipe(conflict(destination))
+        .pipe(gulp.dest(destination))
+        .pipe(install())
         .on('end', done)
         .resume();
     });
   });
-});
+}
 
-gulp.task('generate:full', function (done) {
+function generateFull(done) {
   emptyDir('./', function (err, dirEmpty) {
     var questions = [
       {
@@ -117,47 +130,45 @@ gulp.task('generate:full', function (done) {
         answers.tsignore = '*.js\n**/**.js\ntypings\n!gulpfile.js\n';
       }
 
-      gulp.src([__dirname + '/templates/full/' + scriptDir + '/**',
+      var staticFiles = gulp.src([__dirname + '/templates/full/' + scriptDir + '/**',
         '!' + __dirname + '/templates/full/' + scriptDir + '/typings',
-        '!' + __dirname + '/templates/full/' + scriptDir + '/typings/**'])  // Note use of __dirname to be relative to generator
-        .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))                 // Lodash template support
-        .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
-        .pipe(gulp.dest(destination));                   // Without __dirname here = relative to cwd
-
-      gulp.src(__dirname + '/templates/full/root/src/favicon.ico')
-        .pipe(conflict(destination + 'src'))
-        .pipe(gulp.dest(destination + 'src'));
+        '!' + __dirname + '/templates/full/' + scriptDir + '/typings/**'])
+        .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))
+        .pipe(conflict(destination))
+        .pipe(gulp.dest(destination));
 
       answers.sassFilter = '';
       answers.sassPipe = '';
+      var styleFiles;
       if (answers.sass.indexOf('SASS') != -1) {
-        gulp.src(__dirname + '/templates/full/sass/**')
-          .pipe(conflict(destination + 'src'))
-          .pipe(gulp.dest(destination + 'src'));
+        styleFiles = gulp.src(__dirname + '/templates/full/sass/**')
+          .pipe(conflict(destination))
+          .pipe(gulp.dest(destination));
 
         answers.sassFilter = '\n\tvar sassFilter = gulpFilter(\'**/*.scss\', { restore: true });'
         answers.sassPipe = '\n\t\t.pipe(sassFilter)\n\t\t.pipe(require(\'gulp-sass\')())\n\t\t.pipe(sassFilter.restore)';
       } else {
-        gulp.src(__dirname + '/templates/full/css/**')
-          .pipe(conflict(destination + 'src'))
-          .pipe(gulp.dest(destination + 'src'));
+        styleFiles = gulp.src(__dirname + '/templates/full/css/**')
+          .pipe(conflict(destination))
+          .pipe(gulp.dest(destination));
       }
 
-      gulp.src([
-        __dirname + '/templates/full/root/**',
-        '!' + __dirname + '/templates/full/root/src/favicon.ico',
-      ], { dot: true })  // Note use of __dirname to be relative to generator
-        .pipe(template(answers))                 // Lodash template support
+      var filter = gulpFilter(['**/**', '!src/favicon.ico'], { restore: true });
+
+      es.concat(gulp.src(__dirname + '/templates/full/root/**', { dot: true })
+        .pipe(filter)
+        .pipe(template(answers))
+        .pipe(filter.restore)
         .pipe(rename(function (path) {
           if (path.basename === '.npmignore') {
             path.basename = '.gitignore';
           }
         }))
-        .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
-        .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
+        .pipe(conflict(destination))
+        .pipe(gulp.dest(destination))
         .pipe(install({
           args: 'only=dev'
-        }))                      // Run `bower install` and/or `npm install` if necessary
+        })), staticFiles, styleFiles)
         .on('end', function () {
           if (useTypescript(answers)) {
             tsd({
@@ -165,13 +176,13 @@ gulp.task('generate:full', function (done) {
               config: destination + 'tsd.json'
             }, done);
           } else {
-            done();       // Finished!
+            done();
           }
         })
-        .resume();
+        //.resume();
     });
   });
-});
+}
 
 function addPackages(answers) {
   var packageDelimiter = ',\n\t\t';
@@ -182,7 +193,7 @@ function addPackages(answers) {
 
   if (useTypescript(answers)) {
     devPackages.push(['gulp-typescript', '^2.9.0']);
-    devPackages.push(['del', '^1.2.0']);
+    devPackages.push(['del', '^2.0.2']);
     devPackages.push(['typescript', '^1.6.2']);
   } else {
     devPackages.push(['reactify', '^1.1.1']);
@@ -221,4 +232,8 @@ function validateNameAnswer(input) {
   } else {
     return 'Your name contains illegal characters. Please choose another name!';
   }
+}
+
+module.exports = {
+  generate: generate
 }

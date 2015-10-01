@@ -13,8 +13,8 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes go here
+// Sample route that returns the app name
 var index = require('./routes/index');
-
 app.use('/api', index);
 
 // catch 404 and forward to error handler

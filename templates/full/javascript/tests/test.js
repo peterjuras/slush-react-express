@@ -18,7 +18,7 @@ describe('Server ', function () {
   it('should return the appname', function (done) {
     request.get(getServerUrl(server) + '/api')
       .end(function (error, result) {
-        should(result.text.indexOf('<%= appname %>') != -1).ok;
+        should(result.text === '<%= appname %>').ok;
         done(error);
       });
   })

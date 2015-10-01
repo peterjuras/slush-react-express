@@ -6,6 +6,9 @@ var port = normalizePort(process.env.PORT || '3000');
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes go here!
+// Sample route that returns the app name
 app.use('/api', function (req, res, next) {
 	res.send('<%= appname %>')
 });

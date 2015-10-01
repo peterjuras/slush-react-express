@@ -21,6 +21,7 @@ gulp.task('build', ['package'], function () {
     return;
   }
 
+  // Install npm packages
   return gulp.src('build/package.json')
     .pipe(install({
       production: true
@@ -31,8 +32,7 @@ gulp.task('package', ['browserify', 'copy:client', 'copy:server'], function () {
   if (yargs['skip-build']) {
     return;
   }
-  
-  
+    
   // Clean up package.json
   // Remove tests, devDependencies, etc.
   return gulp.src('build/package.json')
@@ -52,6 +52,7 @@ gulp.task('browserify', function () {
     return;
   }
 
+  // Browserify the react code, to enable the use of 'require'
   var bundle = browserify({
     entries: 'src/react/main.jsx',
     transform: ['reactify', 'browserify-shim']
@@ -71,6 +72,7 @@ gulp.task('copy:client', function () {
     return;
   }
 
+  // Copy and minify client files when building for production
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true }); <%= sassFilter %>
@@ -94,6 +96,7 @@ gulp.task('copy:server', function () {
     return;
   }
 
+  // Copy and strip debug methods from server files when building for production 
   var jsFilter = gulpFilter('**/*.js', { restore: true });
 
   return gulp.src([
@@ -106,6 +109,10 @@ gulp.task('copy:server', function () {
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(jsFilter.restore)
     .pipe(gulp.dest('build/'));
+});
+
+gulp.task('watch', function () {
+  gulp.watch('**/**.jsx', ['build']);
 });
 
 gulp.task('test', ['build'], function () {

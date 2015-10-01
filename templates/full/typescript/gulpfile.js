@@ -25,6 +25,7 @@ gulp.task('build', ['move:src'], function () {
     return;
   }
 
+  // Remove src and tests folders from build output
   del(['./build/src/**/**', './build/src',
     './build/tests/**/**', './build/tests'
   ]);
@@ -40,7 +41,7 @@ gulp.task('move:src', ['browserify'], function () {
     return;
   }
   
-  // move tests
+  // Move tests
   var moveTests = gulp.src('./build/tests/**/**')
     .pipe(gulp.dest('./tests'));
 
@@ -57,6 +58,8 @@ gulp.task('move:src', ['browserify'], function () {
     }))
     .pipe(gulp.dest('build/'));
 
+  // Copy and minify client files when building for production
+  
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true }); <%= sassFilter %>
@@ -82,6 +85,7 @@ gulp.task('browserify', ['copy'], function () {
     return;
   }
 
+  // Browserify the react code, to enable the use of 'require'
   var bundle = browserify({
     entries: 'build/src/react/main.js'
   });
@@ -99,6 +103,7 @@ gulp.task('copy', function () {
     return;
   }
 
+  // Copy and strip debug methods from server files when building for production
   var js = gulp.src([
     '**/**.ts',
     '**/**.tsx',
@@ -125,7 +130,7 @@ gulp.task('copy', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch('**/**.ts', ['move:src'])
+  gulp.watch(['**/**.ts', '**/**.tsx'], ['build']);
 });
 
 gulp.task('test', ['build'], function () {

@@ -1,27 +1,36 @@
 var react = require('react');
 
-var NameLoader = react.createClass({
-  getInitialState: function () {
-    return { appname: '' };
-  },
-  handleClick: function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api', true);
-    xhr.onload = function () {
-      this.setState({ appname: xhr.responseText });
-    }.bind(this);
-    xhr.send();
-  },
-  render: function () {
+// View that displays a button to call the server
+var NameLoaderView = react.createClass({
+  render: function() {
     return (
       <div>
-        <h1>{this.props.staticname}</h1>
-        <p>Hello {this.props.staticname}</p>
-        <input type="button" value="Get app name" onClick={this.handleClick} />
-        <p>{this.state.appname}</p>
+        <h1>{this.props.staticName}</h1>
+        <p>Hello {this.props.staticName}</p>
+        <input type="button" value="Get app name" onClick={this.props.handleClick} />
+        <p>{this.props.appName}</p>
       </div>
     );
   }
 });
 
-react.render(<NameLoader staticname="<%= appname %>" />, document.getElementById('content'));
+// React component that handles the button click
+var NameLoader = react.createClass({
+  getInitialState: function () {
+    return { appName: '' };
+  },
+  handleClick: function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api', true);
+    xhr.onload = function () {
+      this.setState({ appName: xhr.responseText });
+    }.bind(this);
+    xhr.send();
+  },
+  render: function () {
+    return <NameLoaderView appName={this.state.appName} staticName={this.props.staticName} handleClick={this.handleClick} />;
+  }
+});
+
+// Tell react to render the component
+react.render(<NameLoader staticName="<%= appname %>" />, document.getElementById('content'));
