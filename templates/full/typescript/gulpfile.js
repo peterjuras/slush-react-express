@@ -103,10 +103,7 @@ gulp.task('copy', function () {
     '**/**.ts',
     '**/**.tsx',
     '!node_modules', '!node_modules/**',
-    '!build', '!build/**'
-  ], {
-      root: './'
-    })
+    '!build', '!build/**'])
     .pipe(ts(tsProject))
     .js
     .pipe(gulpIf(yargs.production, stripDebug()))
@@ -122,9 +119,7 @@ gulp.task('copy', function () {
     '!typings', '!typings/**',
     '!tsd.json', '!tsconfig.json',
     '!build', '!build/**'
-  ], {
-      root: './'
-    })
+    ])
     .pipe(gulp.dest('build/'));
   return merge(js, misc);
 });
