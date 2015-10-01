@@ -100,9 +100,9 @@ my-react-express-app/
     └── test.js/ts                          # Sample test
 ```
 
-### CSS Preprocessor
+### SASS
 
-You can choose between `CSS` and `SASS` to use as the CSS Preprocessor for your project.
+You can choose to use `SASS` or just plain `CSS` for the styling in your project.
 
 ### Typescript
 
