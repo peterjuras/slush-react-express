@@ -4,7 +4,7 @@
   "description": "A generator for a node express web app using react",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peterjuras/slush-azure-node.git"
+    "url": "git+https://github.com/peterjuras/slush-react-express.git"
   },
   "scripts": {
     "test": "mocha -R spec tests/test.js --skip-install"
@@ -18,9 +18,9 @@
   "author": "Peter Juras",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/peterjuras/azure-express-generator/issues"
+    "url": "https://github.com/peterjuras/slush-react-express/issues"
   },
-  "homepage": "https://github.com/peterjuras/azure-express-generator#readme",
+  "homepage": "https://github.com/peterjuras/slush-react-express#readme",
   "dependencies": {
     "empty-dir": "^0.1.0",
     "event-stream": "^3.3.1",
