@@ -1,6 +1,8 @@
 slush-react-express
 ==============
 
+[![npm version](https://badge.fury.io/js/slush-react-express.svg)](http://badge.fury.io/js/slush-react-express)
+
 > A [slush](http://slushjs.github.io) generator for a [React](https://facebook.github.io/react/) app served by [Express](http://expressjs.com/).
 
 ## Installation
