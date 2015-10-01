@@ -94,7 +94,7 @@ my-react-express-app/
     └── react
         └── main.jsx/tsx                    # Main react component and entry point
     └── stylesheets
-        └── index.css                       # Main app stylesheet
+        └── index.css/scss                  # Main app stylesheet
     └── index.html                          # Main browser entry point
 └── tests                                   # Mocha tests go here
     └── test.js/ts                          # Sample test
