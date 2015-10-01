@@ -7,6 +7,7 @@ var install = require('gulp-install');
 var uglify = require('gulp-uglify');
 var stripDebug = require('gulp-strip-debug');
 var gulpFilter = require('gulp-filter');
+var jeditor = require('gulp-json-editor');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
 var ts = require('gulp-typescript');
@@ -19,14 +20,14 @@ var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('default', ['build'], function () { });
 
-gulp.task('build', ['move:src'], function() {
+gulp.task('build', ['move:src'], function () {
   if (yargs['skip-build']) {
     return;
   }
-  
+
   del(['./build/src/**/**', './build/src',
-        './build/tests/**/**', './build/tests'
-      ]);
+    './build/tests/**/**', './build/tests'
+  ]);
 
   return gulp.src('build/package.json')
     .pipe(install({
@@ -34,7 +35,7 @@ gulp.task('build', ['move:src'], function() {
     }));
 });
 
-gulp.task('move:src', ['browserify'], function() {
+gulp.task('move:src', ['browserify'], function () {
   if (yargs['skip-build']) {
     return;
   }
@@ -43,11 +44,24 @@ gulp.task('move:src', ['browserify'], function() {
   var moveTests = gulp.src('./build/tests/**/**')
     .pipe(gulp.dest('./tests'));
 
+  // Clean up package.json
+  // Remove tests, devDependencies, etc.
+  var pjson = gulp.src('build/package.json')
+    .pipe(jeditor(function (json) {
+      json.scripts.start = 'node server.js';
+      delete json.scripts.test;
+      delete json.browserify;
+      delete json['browserify-shim'];
+      delete json.devDependencies;
+      return json;
+    }))
+    .pipe(gulp.dest('build/'));
+
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
-  var cssFilter = gulpFilter('**/*.css', { restore: true });<%= sassFilter %>
+  var cssFilter = gulpFilter('**/*.css', { restore: true }); <%= sassFilter %>
 
-  return gulp.src(['src/**', '!src/react/**', '!src/react'])<%= sassPipe %>
+  var files = gulp.src(['src/**', '!src/react/**', '!src/react']) <%= sassPipe %>
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(gulpIf(yargs.production, uglify()))
@@ -59,13 +73,15 @@ gulp.task('move:src', ['browserify'], function() {
     .pipe(gulpIf(yargs.production, minifyCss()))
     .pipe(cssFilter.restore)
     .pipe(gulp.dest('./build/public'));
+
+  return merge(moveTests, pjson, files);
 });
 
 gulp.task('browserify', ['copy'], function () {
   if (yargs['skip-build']) {
     return;
   }
-  
+
   var bundle = browserify({
     entries: 'build/src/react/main.js'
   });
@@ -78,17 +94,17 @@ gulp.task('browserify', ['copy'], function () {
     .pipe(gulp.dest('build/public/javascripts/'));
 });
 
-gulp.task('copy', function() {
+gulp.task('copy', function () {
   if (yargs['skip-build']) {
     return;
   }
-  
+
   var js = gulp.src([
     '**/**.ts',
     '**/**.tsx',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**'
-    ], {
+  ], {
       root: './'
     })
     .pipe(ts(tsProject))
@@ -106,18 +122,18 @@ gulp.task('copy', function() {
     '!typings', '!typings/**',
     '!tsd.json', '!tsconfig.json',
     '!build', '!build/**'
-    ], {
+  ], {
       root: './'
     })
     .pipe(gulp.dest('build/'));
   return merge(js, misc);
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch('**/**.ts', ['move:src'])
 });
 
-gulp.task('test', ['build'], function() {
+gulp.task('test', ['build'], function () {
   gulp.src('tests/**/**.js', { read: false })
     .pipe(mocha())
     .once('end', function () {

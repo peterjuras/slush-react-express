@@ -8,51 +8,52 @@ var gulp = require('gulp'),
   emptyDir = require('empty-dir'),
   run = require('run-sequence'),
   validateName = require('validate-npm-package-name'),
+  readline = require('readline'),
   tsd = require('gulp-tsd');
 
 var destination = process.env.testDest || './';
+var appName;
 
 gulp.task('default', ['generate']);
 
 gulp.task('generate', function (callback) {
+  var workingDirName = process.cwd().split('/').pop().split('\\').pop();
+
   console.log('Welcome to the react-express slush generator!');
   inquirer.prompt([{
-    type: 'list',
-    name: 'type',
-    message: 'Would you like to use a minimal or a full (gulp builds, tests, production settings) template?',
-    choices: ['Minimal', 'Full'],
-    default: 0
-  }], function (answer) {
-    if (answer.type.indexOf('Full') != -1) {
-      run('generate:full', callback);
-    } else {
-      run('generate:minimal', callback);
-    }
-  });
+    type: 'input',
+    name: 'appname',
+    message: 'What will your app be called?',
+    default: formatPackageName(workingDirName.toLowerCase()),
+    validate: validateNameAnswer
+  }, {
+      type: 'list',
+      name: 'type',
+      message: 'Would you like to use a minimal or a full (gulp builds, tests, production settings) template?',
+      choices: ['Minimal', 'Full'],
+      default: 0
+    }], function (answers) {
+      answers = cleanName(answers);
+      appName = answers.appname;
+
+      if (answers.type.indexOf('Full') != -1) {
+        run('generate:full', callback);
+      } else {
+        run('generate:minimal', callback);
+      }
+    });
 });
 
 gulp.task('generate:minimal', function (done) {
-  var workingDirName = process.cwd().split('/').pop().split('\\').pop();
-
   emptyDir('./', function (err, dirEmpty) {
-    var questions = [{
-      type: 'input',
-      name: 'appname',
-      message: 'What will your app be called?',
-      default: formatPackageName(workingDirName.toLowerCase()),
-      validate: validateNameAnswer
-    }];
+    var questions = [];
     if (destination === './' && !dirEmpty) {
       questions.push({
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
       });
     }
     inquirer.prompt(questions, function (answers) {
-      if (!answers.appname) {
-        return done();
-      }
-
-      answers = cleanName(answers);
+      answers.appname = appName;
 
       if (answers.createDir && answers.createDir) {
         destination = destination + answers.appname + '/';
@@ -75,17 +76,9 @@ gulp.task('generate:minimal', function (done) {
 });
 
 gulp.task('generate:full', function (done) {
-  var workingDirName = process.cwd().split('/').pop().split('\\').pop();
-
   emptyDir('./', function (err, dirEmpty) {
     var questions = [
       {
-        type: 'input',
-        name: 'appname',
-        message: 'What will your app be called?',
-        default: formatPackageName(workingDirName.toLowerCase()),
-        validate: validateNameAnswer
-      }, {
         type: 'list',
         name: 'ts',
         message: 'Do you want to write in JavaScript or TypeScript?',
@@ -109,13 +102,10 @@ gulp.task('generate:full', function (done) {
       });
     }
     inquirer.prompt(questions, function (answers) {
-      if (!answers.appname) {
-        return done();
-      }
+      answers.appname = appName;
 
       answers.tsignore = '';
       answers = addPackages(answers);
-      answers = cleanName(answers);
 
       if (answers.createDir && answers.createDir) {
         destination = destination + answers.appname + '/';
@@ -165,7 +155,9 @@ gulp.task('generate:full', function (done) {
         }))
         .pipe(conflict(destination))                    // Confirms overwrites on file conflicts
         .pipe(gulp.dest(destination))                   // Without __dirname here = relative to cwd
-        .pipe(install())                      // Run `bower install` and/or `npm install` if necessary
+        .pipe(install({
+          args: 'only=dev'
+        }))                      // Run `bower install` and/or `npm install` if necessary
         .on('end', function () {
           if (useTypescript(answers)) {
             tsd({
@@ -219,11 +211,11 @@ function cleanName(answers) {
 }
 
 function formatPackageName(name) {
-  return name.split(' ').join('-');
+  return name.toLowerCase().split(' ').join('-');
 }
 
 function validateNameAnswer(input) {
-  var validation = validateName(input);
+  var validation = validateName(formatPackageName(input));
   if (validation.validForNewPackages) {
     return true;
   } else {
