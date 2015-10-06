@@ -13,7 +13,7 @@ describe('slush-react-express', function () {
     process.chdir(__dirname);
   });
 
-  describe('minimal generator', function () {
+  describe('Minimal generator', function () {
     beforeEach(function () {
       mockPrompt({ 'appname': 'Test Name', 'type': 'Minimal', 'createDir': false });
     });
@@ -40,14 +40,26 @@ describe('slush-react-express', function () {
       });
     });
 
-    it('should add the client files to the public folder', function (done) {
-      generator.generate(function () {
-        mockGulpDest.assertDestContains([
-          'public/index.html',
-          'public/stylesheets/index.css',
-          'public/javascripts/main.jsx'
-        ]);
-        done();
+    describe('should add the client files to the public folder', function () {
+      it('should add index.html', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('public/index.html');
+          done();
+        });
+      });
+
+      it('should add index.css', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('public/stylesheets/index.css');
+          done();
+        });
+      });
+
+      it('should add main.jsx', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('public/javascripts/main.jsx');
+          done();
+        });
       });
     });
 
@@ -59,7 +71,7 @@ describe('slush-react-express', function () {
     });
   });
 
-  describe('full generator', function () {
+  describe('Full generator', function () {
     beforeEach(function () {
       mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
     });
@@ -93,17 +105,23 @@ describe('slush-react-express', function () {
       });
     });
 
-    it('should add static files to src', function (done) {
-      generator.generate(function () {
-        mockGulpDest.assertDestContains([
-          'src/favicon.ico',
-          'src/index.html'
-        ]);
-        done();
+    describe('should add static files to src', function () {
+      it('should add favicon.ico', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('src/favicon.ico');
+          done();
+        });
+      });
+
+      it('should add index.html', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('src/index.html');
+          done();
+        });
       });
     });
 
-    describe('css', function () {
+    describe('CSS', function () {
       beforeEach(function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
       });
@@ -117,7 +135,7 @@ describe('slush-react-express', function () {
       });
     });
 
-    describe('sass', function () {
+    describe('Sass', function () {
       beforeEach(function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'SASS', 'createDir': false });
       });
@@ -131,52 +149,123 @@ describe('slush-react-express', function () {
       });
     });
 
-    describe('javascript', function () {
+    describe('JavaScript', function () {
       beforeEach(function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
       });
 
-      it('should add javascript files by default', function (done) {
+
+      it('should add index.js', function (done) {
         generator.generate(function () {
           mockGulpDest.assertDestContains('routes/index.js');
-          mockGulpDest.assertDestContains('src/react/main.jsx');
-          mockGulpDest.assertDestContains('tests/test.js');
-          mockGulpDest.assertDestContains('app.js');
-          mockGulpDest.assertDestContains('server.js');
-        
           // Should not contain Typescript files
           mockGulpDest.assertDestNotContains('routes/index.ts');
+          done();
+        });
+      });
+
+      it('should add main.jsx', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('src/react/main.jsx');
+          // Should not contain Typescript files
           mockGulpDest.assertDestNotContains('src/react/main.tsx');
+          done();
+        });
+      });
+
+      it('should add test.js', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('tests/test.js');
+          // Should not contain Typescript files
           mockGulpDest.assertDestNotContains('tests/test.ts');
-          mockGulpDest.assertDestNotContains('app.ts');
+          done();
+        });
+      });
+
+      it('should add server.js', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('server.js');
+          // Should not contain Typescript files
           mockGulpDest.assertDestNotContains('server.ts');
+          done();
+        });
+      });
+
+      it('should not contain tsconfig.json', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestNotContains('tsconfig.json');
+          done();
+        });
+      });
+
+      it('should not contain tsd.json', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestNotContains('tsd.json');
           done();
         });
       });
     });
 
-    describe('typescript', function () {
+    describe('TypeScript', function () {
       beforeEach(function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'sass': 'CSS', 'ts': 'TypeScript', 'createDir': false });
       });
 
-      it('should add typescript files', function (done) {
+
+      it('should add index.ts', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestNotContains('routes/index.js');
-          mockGulpDest.assertDestNotContains('src/react/main.jsx');
-          mockGulpDest.assertDestNotContains('tests/test.js');
-          mockGulpDest.assertDestNotContains('app.js');
-          mockGulpDest.assertDestNotContains('server.js');
-        
-          // Should contain Typescript files
           mockGulpDest.assertDestContains('routes/index.ts');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('routes/index.js');
+          done();
+        });
+      });
+
+      it('should add main.tsx', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('src/react/main.tsx');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('src/react/main.jsx');
+          done();
+        });
+      });
+
+      it('should add test.ts', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('tests/test.ts');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('tests/test.js');
+          done();
+        });
+      });
+
+      it('should add app.ts', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('app.ts');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('app.js');
+          done();
+        });
+      });
+
+      it('should add server.ts', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('server.ts');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('server.js');
+          done();
+        });
+      });
+
+      it('should add tsconfig.json', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('tsconfig.json');
+          done();
+        });
+      });
+
+      it('should add tsd.json', function (done) {
+        generator.generate(function () {
           mockGulpDest.assertDestContains('tsd.json');
           done();
         });
