@@ -5,6 +5,10 @@ slush-react-express
 
 > A [slush](http://slushjs.github.io) generator for a [React](https://facebook.github.io/react/) app served by [Express](http://expressjs.com/).
 
+#### Changelog
+
+Click [here](CHANGELOG.md) to see recent changes.
+
 ## Installation
 
 Install `slush-react-express` globally:
@@ -76,6 +80,7 @@ The full template is a great starting point if you want to kickstart a big proje
 * Production builds with minified/stripped files
 * Typescript support
 * SASS support
+* Sourcemaps support to debug during development
 
 ### Project structure
 
