@@ -104,7 +104,8 @@ gulp.task('copy:server', function () {
     '!src', '!src/**',
     '!gulpfile.js',
     '!node_modules', '!node_modules/**',
-    '!build', '!build/**'])
+    '!build', '!build/**',
+    '!tests', '!tests/**'])
     .pipe(jsFilter)
     .pipe(gulpIf(yargs.production, stripDebug()))
     .pipe(jsFilter.restore)
