@@ -21,7 +21,7 @@ var NameLoader = React.createClass({
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api', true);
     xhr.onload = function () {
-      this.setState({ appname: xhr.responseText });
+      this.setState({ appName: xhr.responseText });
     }.bind(this);
     xhr.send();
   },
