@@ -146,7 +146,7 @@ function generateFull(done) {
           .pipe(gulp.dest(destination));
 
         answers.sassFilter = '\n\tvar sassFilter = gulpFilter(\'**/*.scss\', { restore: true });'
-        answers.sassPipe = '\n\t\t.pipe(sassFilter)\n\t\t.pipe(require(\'gulp-sass\')())\n\t\t.pipe(sassFilter.restore)';
+        answers.sassPipe = '\n\t\t.pipe(sassFilter)\n\t\t.pipe(gulpIf(!yargs.production, sourcemaps.init()))\n\t\t.pipe(require(\'gulp-sass\')())\n\t\t.pipe(gulpIf(!yargs.production, sourcemaps.write()))\n\t\t.pipe(sassFilter.restore)';
       } else {
         styleFiles = gulp.src(__dirname + '/templates/full/css/**')
           .pipe(conflict(destination))

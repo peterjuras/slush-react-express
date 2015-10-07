@@ -15,6 +15,8 @@ var mocha = require('gulp-mocha');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var path = require('path');
 
 var tsProject = ts.createProject('tsconfig.json');
 
@@ -87,7 +89,8 @@ gulp.task('browserify', ['copy'], function () {
 
   // Browserify the react code, to enable the use of 'require'
   var bundle = browserify({
-    entries: 'build/src/react/main.js'
+    entries: 'build/src/react/main.js',
+    debug: !yargs.production,
   });
 
   return bundle
@@ -109,9 +112,27 @@ gulp.task('copy', function () {
     '**/**.tsx',
     '!node_modules', '!node_modules/**',
     '!build', '!build/**'])
+    .pipe(gulpIf(!yargs.production, sourcemaps.init()))
     .pipe(ts(tsProject))
     .js
     .pipe(gulpIf(yargs.production, stripDebug()))
+    .pipe(gulpIf(!yargs.production, sourcemaps.write(
+      {
+        sourceRoot: function (file) {
+          // Check whether mocha test
+          if (file.relative.indexOf('test' + path.sep) === 0) {
+            return '.' + path.sep;
+          }
+         
+          var result = '';
+          var pathSteps = file.relative.split(path.sep);
+ 
+          for (var step in pathSteps) {
+            result += '..' + path.sep;
+          }
+          return result;
+        }
+      })))
     .pipe(gulp.dest('build/'));
 
   var misc = gulp.src([

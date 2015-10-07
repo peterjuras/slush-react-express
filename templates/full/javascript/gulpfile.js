@@ -13,6 +13,7 @@ var mocha = require('gulp-mocha');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('default', ['build'], function () { });
 
@@ -55,7 +56,8 @@ gulp.task('browserify', function () {
   // Browserify the react code, to enable the use of 'require'
   var bundle = browserify({
     entries: 'src/react/main.jsx',
-    transform: ['reactify', 'browserify-shim']
+    transform: ['reactify', 'browserify-shim'],
+    debug: !yargs.production,
   });
 
   return bundle
