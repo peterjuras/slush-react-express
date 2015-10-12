@@ -157,6 +157,9 @@ function generateFull(done) {
         restore: true,
         dot: true  
       });
+      
+      // Leave minified template untouched
+      answers.minified = '<%= minified %>';
 
       es.concat(gulp.src(__dirname + '/templates/full/root/**', { dot: true })
         .pipe(filter)

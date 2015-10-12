@@ -15,6 +15,7 @@ var mocha = require('gulp-mocha');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var template = require('gulp-template');
 var sourcemaps = require('gulp-sourcemaps');
 var path = require('path');
 
@@ -65,6 +66,10 @@ gulp.task('move:src', ['browserify'], function () {
   var jsFilter = gulpFilter('**/*.js', { restore: true });
   var htmlFilter = gulpFilter('**/*.html', { restore: true });
   var cssFilter = gulpFilter('**/*.css', { restore: true }); <%= sassFilter %>
+  
+  var scriptsLocation = {
+    minified: yargs.production ? '.min' : ''
+  };
 
   var files = gulp.src(['src/**', '!src/react/**', '!src/react']) <%= sassPipe %>
     .pipe(jsFilter)
@@ -72,6 +77,7 @@ gulp.task('move:src', ['browserify'], function () {
     .pipe(gulpIf(yargs.production, uglify()))
     .pipe(jsFilter.restore)
     .pipe(htmlFilter)
+    .pipe(template(scriptsLocation))
     .pipe(gulpIf(yargs.production, minifyHtml()))
     .pipe(htmlFilter.restore)
     .pipe(cssFilter)
