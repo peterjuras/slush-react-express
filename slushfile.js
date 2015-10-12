@@ -199,7 +199,7 @@ function addPackages(answers) {
     devPackages.push(['del', '^2.0.2']);
     devPackages.push(['typescript', '^1.6.2']);
   } else {
-    devPackages.push(['reactify', '^1.1.1']);
+    devPackages.push(['babelify', '^6.3.0']);
   }
 
   if (answers.sass.indexOf('SASS') != -1) {

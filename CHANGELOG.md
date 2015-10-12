@@ -1,10 +1,12 @@
 Changelog - slush-react-express
 ==============
-## 1.2.0
+## 2.0.0
 
 * Update React to version 0.14.0
 * Minimal template now uses Babel transpiler instead of JSXTransformer
 * Minimal template now uses ES6 features where appropriate
+* Full/JavaScript template now uses ES6 features where appropriate
+* Full/JavaScript template now uses babelify instead of reactify
 
 ## 1.1.0
 

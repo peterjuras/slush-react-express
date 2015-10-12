@@ -56,7 +56,7 @@ gulp.task('browserify', function () {
   // Browserify the react code, to enable the use of 'require'
   var bundle = browserify({
     entries: 'src/react/main.jsx',
-    transform: ['reactify', 'browserify-shim'],
+    transform: ['babelify', 'browserify-shim'],
     debug: !yargs.production,
   });
 

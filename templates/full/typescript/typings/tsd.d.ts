@@ -15,3 +15,4 @@
 /// <reference path="should/should.d.ts" />
 /// <reference path="superagent/superagent.d.ts" />
 /// <reference path="react/react.d.ts" />
+/// <reference path="react-dom/react-dom.d.ts" />
