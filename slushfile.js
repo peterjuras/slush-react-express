@@ -146,7 +146,18 @@ function generateFull(done) {
           .pipe(gulp.dest(destination));
 
         answers.sassFilter = '\n\tvar sassFilter = gulpFilter(\'**/*.scss\', { restore: true });'
-        answers.sassPipe = '\n\t\t.pipe(sassFilter)\n\t\t.pipe(gulpIf(!yargs.production, sourcemaps.init()))\n\t\t.pipe(require(\'gulp-sass\')())\n\t\t.pipe(gulpIf(!yargs.production, sourcemaps.write()))\n\t\t.pipe(sassFilter.restore)';
+        answers.sassPipe = '\n\t// Operations on sass files' +
+          '\n\t\t.pipe(sassFilter)' +
+          '\n\t// Initialize source maps' +
+          '\n\t\t.pipe(applyPlugin(sourcemaps.init(), config.plugins.sourcemaps))' +
+          '\n\t// Convert the sass files to css. "gulp-sass" is required directly' +
+          '\n\t// due to technical reasons that stem from the slush-react-express generator.' +
+          '\n\t// You can refactor it out if you want to.' +
+          "\n\t\t.pipe(require('gulp-sass')())" + 
+          '\n\t// Write the source maps after the files have been transformed' + 
+          '\n\t\t.pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))' +
+          '\n\t// Restore all files back into the stream' +
+          '\n\t\t.pipe(sassFilter.restore)';
       } else {
         styleFiles = gulp.src(__dirname + '/templates/full/css/**')
           .pipe(conflict(destination))
@@ -201,6 +212,9 @@ function addPackages(answers) {
     devPackages.push(['gulp-typescript', '^2.9.0']);
     devPackages.push(['del', '^2.0.2']);
     devPackages.push(['typescript', '^1.6.2']);
+    devPackages.push(['async', '^1.4.2']);
+    devPackages.push(['gulp-intermediate', '^3.0.1']);
+    devPackages.push(['uglifyify', '^3.0.1']);
   } else {
     devPackages.push(['babelify', '^6.3.0']);
   }

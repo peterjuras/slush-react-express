@@ -1,13 +1,17 @@
-import request = require('superagent');
-import shouldModule = require('should');
-var should = shouldModule;
+import * as request from 'superagent';
+import * as should from 'should';
+import * as http from 'http';
 
-var server;
+var server : http.Server;
 
 describe('Server ', () => {
   before(() => {
     server = require('../build/server');
   });
+  
+  after(() => {
+    server.close();
+  })
 
   it('should be listening', (done) => {
     request.get(getServerUrl(server))

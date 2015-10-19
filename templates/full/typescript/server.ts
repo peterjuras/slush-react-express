@@ -1,5 +1,5 @@
-import app = require('./app');
-import http = require('http');
+import * as app from './app';
+import * as http from 'http';
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);

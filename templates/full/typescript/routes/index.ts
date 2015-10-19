@@ -1,4 +1,4 @@
-import express = require('express');
+import * as express from 'express';
 var router = express.Router();
 
 // Return the name of the app when /api gets called

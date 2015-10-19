@@ -1,8 +1,8 @@
-import express = require('express');
-import path = require('path');
-import cookieParser = require('cookie-parser');
-import bodyParser = require('body-parser');
+import * as express from 'express';
+import * as path from 'path';
+import * as bodyParser from 'body-parser';
 import favicon = require('serve-favicon');
+import cookieParser = require('cookie-parser');
 
 var app = express();
 
@@ -14,8 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes go here
 // Sample route that returns the app name
-var index = require('./routes/index');
-
+import * as index from './routes/index';
 app.use('/api', index);
 
 // catch 404 and forward to error handler
