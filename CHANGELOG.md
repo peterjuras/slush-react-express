@@ -1,5 +1,9 @@
 Changelog - slush-react-express
 ==============
+## 2.1.0
+
+* Rewrote gulp builds to be faster, cleaner and more configurable.
+
 ### 2.0.1
 
 * Full templates now using minified React libraries for production builds
