@@ -1,15 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// View that displays a button to call the server
-var NameLoaderView = (props) => (
-  <div>
-    <h1>{props.staticName}</h1>
-    <p>Hello {props.staticName}</p>
-    <input type="button" value="Get app name" onClick={props.handleClick} />
-    <p>{props.appName}</p>
-  </div>
-);
+import NameLoaderView from './views/NameLoaderView';
 
 // React component that handles the button click
 class NameLoader extends React.Component {

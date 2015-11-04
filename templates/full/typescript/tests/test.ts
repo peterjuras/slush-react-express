@@ -11,7 +11,7 @@ describe('Server ', () => {
   
   after(() => {
     server.close();
-  })
+  });
 
   it('should be listening', (done) => {
     request.get(getServerUrl(server))

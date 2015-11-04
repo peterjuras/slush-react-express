@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {NameLoaderView, NameLoaderProps} from './views/NameLoaderView';
-var ReactDOM : __ReactDom = require('react-dom');
+var ReactDOM: __ReactDom = require('react-dom');
 
 class NameLoaderState {
   public appName: string;

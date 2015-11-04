@@ -139,6 +139,7 @@ function generateFull(done) {
 
       answers.sassFilter = '';
       answers.sassPipe = '';
+      answers.sassWatch = '';
       var styleFiles;
       if (answers.sass.indexOf('SASS') != -1) {
         styleFiles = gulp.src(__dirname + '/templates/full/sass/**')
@@ -158,6 +159,7 @@ function generateFull(done) {
           '\n\t\t.pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))' +
           '\n\t// Restore all files back into the stream' +
           '\n\t\t.pipe(sassFilter.restore)';
+        answers.sassWatch = "\n\t\tconfig.clientSourceDir + '/**/**.scss',"
       } else {
         styleFiles = gulp.src(__dirname + '/templates/full/css/**')
           .pipe(conflict(destination))
@@ -210,7 +212,6 @@ function addPackages(answers) {
 
   if (useTypescript(answers)) {
     devPackages.push(['gulp-typescript', '^2.9.0']);
-    devPackages.push(['del', '^2.0.2']);
     devPackages.push(['typescript', '^1.6.2']);
     devPackages.push(['async', '^1.4.2']);
     devPackages.push(['gulp-intermediate', '^3.0.1']);

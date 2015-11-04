@@ -22,10 +22,8 @@ var sourcemaps = require('gulp-sourcemaps');      // Writes inline sourcemaps to
 var spawn = require('child_process').spawn;       // Spawns a node server to enable incremental compilation
 var stripDebug = require('gulp-strip-debug');     // Removes debug statements from script files
 var template = require('gulp-template');          // Helps in loading minified/unminified versions of the React libraries
-var through = require('through2');                // Creates a custom stream transform to enable the piping of browserify
 var ts = require('gulp-typescript');              // Compiles .ts & .tsx files to JavaScript
 var uglify = require('gulp-uglify');              // Minifies, refactors and removes comments from script files
-var uglifyify = require('uglifyify');             // Minifies, refactors and removes comments in browserify bundles
 var yargs = require('yargs').argv;                // Provides easy access to passed command line arguments
 
 // The watch task spawns a node server which will be referenced in this variable,
@@ -80,7 +78,9 @@ gulp.task('install', function () {
     }));
 });
 
+// This task copies the client side source files to the build output folder
 gulp.task('copy', function () {
+  // Don't do anything if --skip-build is passed
   if (yargs['skip-build']) {
     return;
   }
@@ -209,17 +209,20 @@ gulp.task('compile', function () {
             expose: config.browserify.globals
           });
 
-        // Uglify the bundle if demanded
-        if (apply(true, false, config.plugins.uglify)) {
-          bundle.transform(uglifyify);
-        }
-
         bundle
           .bundle()
         // Set the file name of the buffer
           .pipe(source(fileName))
         // Create a stream
           .pipe(buffer())
+        // Initialize source maps
+          .pipe(applyPlugin(sourcemaps.init({ loadMaps: true }), config.plugins.sourcemaps))
+        // Strip debug messages like "console.log()"
+          .pipe(applyPlugin(stripDebug(), config.plugins.stripDebug))
+        // Minify, refactor and remove comments
+          .pipe(applyPlugin(uglify(), config.plugins.uglify))
+        // Write the source maps after the files have been transformed
+          .pipe(sourcemaps.write(), config.plugins.sourcemaps)
         // Put the bundle in the correct location
           .pipe(gulp.dest(path.join(config.buildOutDir, config.clientOutDir, 'javascripts')))
         // Call the async callback to signalize that this bundle is completed
@@ -266,8 +269,7 @@ gulp.task('watch', ['server'], function () {
   // Watch for client side source files and rebuild without a server restart
   gulp.watch([
     config.clientSourceDir + '/**/**.tsx',
-    config.clientSourceDir + '/**/**.ts',
-    config.clientSourceDir + '/**/**.scss',
+    config.clientSourceDir + '/**/**.ts', <%= sassWatch %>
     config.clientSourceDir + '/**/**.html',
     config.clientSourceDir + '/**/**.js',
     config.clientSourceDir + '/**/**.css',
@@ -328,7 +330,7 @@ gulp.task('clean', function () {
     config.buildOutDir,
     config.testDir + '/**/**.js'
   ]);
-})
+});
 
 // Applies a plugin to the stream if the flag and current environment demand for it
 function applyPlugin(plugin, flag) {

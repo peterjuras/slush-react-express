@@ -6,6 +6,10 @@ describe('Server ', function () {
   before(function () {
     server = require('../build/server');
   });
+  
+  after(function () {
+    server.close();
+  });
 
   it('should be listening', function (done) {
     request.get(getServerUrl(server))
