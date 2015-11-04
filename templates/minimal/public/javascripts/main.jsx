@@ -1,5 +1,5 @@
 // View that displays a button to call the server
-var NameLoaderView = (props) => (
+const NameLoaderView = props => (
   <div>
     <h1>{props.staticName}</h1>
     <p>Hello {props.staticName}</p>
@@ -17,12 +17,13 @@ class NameLoader extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api', true);
-    xhr.onload = () => {
-      this.setState({ appName: xhr.responseText });
-    }
-    xhr.send();
+    fetch('/api')
+      .then(response => {
+        return response.text();
+      })
+      .then(text => {
+        this.setState({ appName: text });
+      });
   }
   render() {
     return <NameLoaderView appName={this.state.appName} staticName={this.props.staticName} handleClick={this.handleClick} />;
