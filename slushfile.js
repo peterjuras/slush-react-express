@@ -154,8 +154,8 @@ function generateFull(done) {
           '\n\t// Convert the sass files to css. "gulp-sass" is required directly' +
           '\n\t// due to technical reasons that stem from the slush-react-express generator.' +
           '\n\t// You can refactor it out if you want to.' +
-          "\n\t\t.pipe(require('gulp-sass')())" + 
-          '\n\t// Write the source maps after the files have been transformed' + 
+          "\n\t\t.pipe(require('gulp-sass')())" +
+          '\n\t// Write the source maps after the files have been transformed' +
           '\n\t\t.pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))' +
           '\n\t// Restore all files back into the stream' +
           '\n\t\t.pipe(sassFilter.restore)';
@@ -166,11 +166,11 @@ function generateFull(done) {
           .pipe(gulp.dest(destination));
       }
 
-      var filter = gulpFilter(['**/**', '!src/favicon.ico'], { 
+      var filter = gulpFilter(['**/**', '!src/favicon.ico'], {
         restore: true,
-        dot: true  
+        dot: true
       });
-      
+
       // Leave minified template untouched
       answers.minified = '<%= minified %>';
 
@@ -218,6 +218,7 @@ function addPackages(answers) {
     devPackages.push(['uglifyify', '^3.0.1']);
   } else {
     devPackages.push(['babelify', '^6.3.0']);
+    devPackages.push(['gulp-rename', '^1.2.2']);
   }
 
   if (answers.sass.indexOf('SASS') != -1) {

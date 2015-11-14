@@ -1,5 +1,10 @@
 Changelog - slush-react-express
 ==============
+### 2.1.1
+
+* Updated minimal template to newest react version and use more ES6
+* Fixed missing gulp-rename package in full/javascript template
+
 ## 2.1.0
 
 * Rewrote gulp builds to be faster, cleaner and more configurable.
