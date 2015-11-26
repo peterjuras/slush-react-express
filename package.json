@@ -7,7 +7,7 @@
     "url": "git+https://github.com/peterjuras/slush-react-express.git"
   },
   "scripts": {
-    "test": "mocha -R spec tests/test.js --skip-install"
+    "test": "mocha -R spec tests/test.js --require env-test --skip-install"
   },
   "keywords": [
     "slushgenerator",
@@ -28,6 +28,7 @@
     "gulp-conflict": "^0.4.0",
     "gulp-filter": "^3.0.1",
     "gulp-install": "^0.6.0",
+    "gulp-json-editor": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^3.0.0",
     "gulp-tsd": "0.0.4",
@@ -36,6 +37,7 @@
     "validate-npm-package-name": "^2.2.2"
   },
   "devDependencies": {
+    "env-test": "^1.0.0",
     "mocha": "^2.3.3",
     "mock-gulp-dest": "^0.1.1",
     "should": "^7.1.0"

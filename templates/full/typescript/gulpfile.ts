@@ -1,32 +1,39 @@
 'use strict';
 
-// Read the config from gulpconfig.js
-const config = require('./gulpconfig');
+// Read the config from gulpconfig.ts
+import config from './gulpconfig';
 
-const del = require('del');                         // Clean up files that are no longer needed
-const extend = require('util')._extend;             // Used to extend the current process.env object for hot reloading
-const fs = require('fs');                           // Used to create a .gitignore file for the production build
-const gulp = require('gulp');
-const gulpFilter = require('gulp-filter');          // Filter streams to perform operations on a valid subset of files
-const gulpMocha = require('gulp-mocha');            // Runs mocha unit tests
-const gutil = require('gulp-util');                 // Allows to return unchanged streams when a plugin is disabled
-const htmlreplace = require('gulp-html-replace');   // Replaces the jspm script imports with the generated bundled
-const install = require('gulp-install');            // Installs npm packages from a package.json file
-const jeditor = require('gulp-json-editor');        // Modifies the built package.json
-const jspm = require('gulp-jspm');                  // Used to bundle the client source files
-const minifyHtml = require('gulp-minify-html');
-const mkpath = require('mkpath');                   // Creates folders within a path that don't exist yet
-const path = require('path');                       // Ensure path operations are valid in Windows & Unix
-const sourcemaps = require('gulp-sourcemaps');      // Writes inline sourcemaps to ease debugging
-const spawn = require('child_process').spawn;       // Spawns a node server to enable incremental compilation
-const stripDebug = require('gulp-strip-debug');     // Removes debug statements from script files
+import childProcess = require('child_process');
+import del = require('del');                         // Clean up files that are no longer needed
+import fs = require('fs');                           // Used to create a .gitignore file for the production build
+import gulp = require('gulp');
+import gulpFilter = require('gulp-filter');          // Filter streams to perform operations on a valid subset of files
+import gutil = require('gulp-util');                 // Allows to return unchanged streams when a plugin is disabled
+import htmlreplace = require('gulp-html-replace');   // Replaces the jspm script imports with the generated bundled
+import install = require('gulp-install');            // Installs npm packages from a package.json file
+import jeditor = require('gulp-json-editor');        // Modifies the built package.json
+import jspm = require('gulp-jspm');                  // Used to bundle the client source files
+import minifyHtml = require('gulp-minify-html');
+import mkpath = require('mkpath');                   // Creates folders within a path that don't exist yet
+import gulpMocha = require('gulp-mocha');            // Runs mocha unit tests
+import path = require('path');                       // Ensure path operations are valid in Windows & Unix
+import rename = require('gulp-rename');              // Rename the bundle from .tsx to .js
+import sourcemaps = require('gulp-sourcemaps');      // Writes inline sourcemaps to ease debugging
+import stripDebug = require('gulp-strip-debug');     // Removes debug statements from script files
+import ts = require('gulp-typescript');              // Compiles server side ts files to javascript
+
+const spawn = childProcess.spawn;                    // Spawns a node server to enable incremental compilation
+const extend : Function = require('util')._extend;              // Used to extend the current process.env object for hot reloading
 
 // The watch task spawns a node server which will be referenced in this variable,
 // to be able to kill it when the server needs to be restarted.
-let node;
+let node : childProcess.ChildProcess;
+
+// The TypeScript project that allows for incremental server source compilation
+const tsProject = ts.createProject('tsconfig.json');
 
 // Applies a plugin to the stream if the flag demands for it
-function applyPlugin(plugin, flag) {
+function applyPlugin(plugin: NodeJS.ReadWriteStream, flag: boolean) {
   return flag ? plugin : gutil.noop();
 }
 
@@ -34,14 +41,19 @@ function applyPlugin(plugin, flag) {
 gulp.task('default', ['test']);
 
 // The general build task which parallely calls its dependants
-gulp.task('build', ['copy:server', 'copy:client', 'bundle:client', 'npm:install', 'create:gitignore']);
+gulp.task('build', ['compile:server', 'copy:client', 'bundle:client', 'npm:install', 'create:gitignore']);
 
-// Copies all server source files to the build output directory
-gulp.task('copy:server', () => {
+// Compiles all server source files and puts them in the build output directory
+gulp.task('compile:server', () => {
   // Get all server files
-  return gulp.src(`${config.serverSourceDir}/**/**`, { base: './' })
+  return gulp.src([
+    `${config.serverSourceDir}/**/**`,
+    `${config.clientScriptDir}/typings/tsd.d.ts`
+  ], { base: './' })
   // Initialize source maps
     .pipe(applyPlugin(sourcemaps.init(), config.plugins.sourcemaps))
+  // Compile the files
+    .pipe(ts(tsProject))
   // Strip debug messages like console.log from the files
     .pipe(applyPlugin(stripDebug(), config.plugins.stripDebug))
   // Write the source maps
@@ -60,7 +72,7 @@ gulp.task('copy:client', () => {
   // Operations on HTML files
     .pipe(htmlFilter)
   // Replace System.js with the bundle reference
-    .pipe(htmlreplace({ production: 'index.bundle.js' }))
+    .pipe(htmlreplace({ production: 'src/index.bundle.js' }))
   // Minify the html
     .pipe(applyPlugin(minifyHtml(), config.plugins.minifyHtml))
   // Restore all files back into the stream
@@ -85,6 +97,8 @@ gulp.task('bundle:client', () => {
     }))
   // Strip debug messages like console.log from the files
     .pipe(applyPlugin(stripDebug(), config.plugins.stripDebug))
+  // Rename the bundle from .tsx to .js
+    .pipe(rename(path => path.extname = '.js'))
   // Write the source maps
     .pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))
   // Put the files in the build output dir
@@ -96,12 +110,14 @@ gulp.task('npm:install', () => {
   return gulp.src('package.json')
   // Clean up the package.json and remove development
   // related sections
-    .pipe(jeditor(json => {
+    .pipe(jeditor((json : any) => {
+      // Change start script
+      json.scripts.start = `node ${path.join(config.serverSourceDir, 'server.js')}`;
       // Tests will not be compiled/copied into the build directory
       delete json.scripts.test;
-      // the post install script installs jspm modules, which are no longer needed
+      // the post install script installs tsd and jspm modules, which are no longer needed
       delete json.scripts.postinstall;
-      // DevDependencies will no longer be needed in the built project
+      // DevDependencies will no longer be neeed in the built project
       delete json.devDependencies;
       // jspm dependencies will also no longer be needed since everything is bundled
       delete json.jspm;
@@ -117,7 +133,7 @@ gulp.task('npm:install', () => {
     }));
 });
 
-gulp.task('create:gitignore', done => {
+gulp.task('create:gitignore', (done : Function) => {
   const excluded = [
     'node_modules'
   ];
@@ -131,11 +147,14 @@ gulp.task('create:gitignore', done => {
   });
 });
 
-// Copies all server side tests
-gulp.task('copy:tests', ['build'], () => {
+// Compiles all server side tests
+gulp.task('compile:tests', ['build'], () => {
   return gulp.src([
-      `${config.testDir}/**/**`,
+      `${config.testDir}/**/**.ts`,
+      `${config.clientScriptDir}/typings/tsd.d.ts`
     ], { base: './' })
+    .pipe(ts(tsProject))
+    .js
     .pipe(gulp.dest(config.buildOutDir));
 });
 
@@ -144,13 +163,13 @@ function deleteTestsInBuildOutDir() {
 }
 
 // Runs all unit test within the test directory with mocha
-gulp.task('test', ['copy:tests'], () => {
+gulp.task('test', ['compile:tests'], () => {
   return gulp.src(`${path.join(config.buildOutDir, config.testDir)}/**/*.js`, { read: false })
     .pipe(gulpMocha({
       require: ['env-test']
     }))
     .on('end', deleteTestsInBuildOutDir)
-    .on('error', deleteTestsInBuildOutDir);;
+    .on('error', deleteTestsInBuildOutDir);
 });
 
 // Creates a node server which will be used by 'gulp watch'
@@ -165,13 +184,13 @@ gulp.task('server', () => {
   const watchEnvironment = extend(process.env, { 'gulp:watch': true });
 
   // Start the node server with the node entry point
-  node = spawn('node', [path.join(config.serverSourceDir, 'server.js')], {
+  node = spawn('ts-node', [path.join(config.serverSourceDir, 'server.ts')], {
     stdio: 'inherit',
     env: watchEnvironment,
   });
 
   // Listen to the close event to detect errors while running the server
-  node.on('close', code => {
+  node.on('close', (code : Number) => {
     // Check for the error code to detect errors correctly
     if (code === 8) {
       console.log('Error detected, waiting for changes...');
@@ -188,5 +207,14 @@ gulp.task('watch', ['server'], () => {
 
 // This task cleans all files that are generated by the build process
 gulp.task('clean', () => {
-  return del(config.buildOutDir);
+  return del([
+    config.buildOutDir,
+    `${config.clientScriptDir}/**/*.js`,
+    `!${config.clientScriptDir}/config.js`,
+    `!${config.clientScriptDir}/jspm_packages/**/*.js`,
+    `${config.serverSourceDir}/**/*.js`,
+    `${config.testDir}/**/*.js`,
+    `gulpfile.js`,
+    `gulpconfig.js`
+  ]);
 });

@@ -6,6 +6,7 @@ var gulp = require('gulp'),
   inquirer = require('inquirer'),
   rename = require('gulp-rename'),
   emptyDir = require('empty-dir'),
+  jsonEditor = require('gulp-json-editor'),
   gulpFilter = require('gulp-filter'),
   run = require('run-sequence'),
   validateName = require('validate-npm-package-name'),
@@ -117,9 +118,6 @@ function generateFull(done) {
     inquirer.prompt(questions, function (answers) {
       answers.appname = appName;
 
-      answers.tsignore = '';
-      answers = addPackages(answers);
-
       if (answers.createDir && answers.createDir) {
         destination = destination + answers.appname + '/';
       }
@@ -127,110 +125,55 @@ function generateFull(done) {
       var scriptDir = 'javascript';
       if (useTypescript(answers)) {
         scriptDir = 'typescript';
-        answers.tsignore = '*.js\n**/**.js\ntypings\n!gulpfile.js\n';
       }
 
-      var staticFiles = gulp.src([__dirname + '/templates/full/' + scriptDir + '/**',
-        '!' + __dirname + '/templates/full/' + scriptDir + '/typings',
-        '!' + __dirname + '/templates/full/' + scriptDir + '/typings/**'])
-        .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))
-        .pipe(conflict(destination))
-        .pipe(gulp.dest(destination));
-
-      answers.sassFilter = '';
-      answers.sassPipe = '';
-      answers.sassWatch = '';
       var styleFiles;
       if (answers.sass.indexOf('SASS') != -1) {
+        answers.styleExt = 'scss';
         styleFiles = gulp.src(__dirname + '/templates/full/sass/**')
           .pipe(conflict(destination))
           .pipe(gulp.dest(destination));
-
-        answers.sassFilter = '\n\tvar sassFilter = gulpFilter(\'**/*.scss\', { restore: true });'
-        answers.sassPipe = '\n\t// Operations on sass files' +
-          '\n\t\t.pipe(sassFilter)' +
-          '\n\t// Initialize source maps' +
-          '\n\t\t.pipe(applyPlugin(sourcemaps.init(), config.plugins.sourcemaps))' +
-          '\n\t// Convert the sass files to css. "gulp-sass" is required directly' +
-          '\n\t// due to technical reasons that stem from the slush-react-express generator.' +
-          '\n\t// You can refactor it out if you want to.' +
-          "\n\t\t.pipe(require('gulp-sass')())" + 
-          '\n\t// Write the source maps after the files have been transformed' + 
-          '\n\t\t.pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))' +
-          '\n\t// Restore all files back into the stream' +
-          '\n\t\t.pipe(sassFilter.restore)';
-        answers.sassWatch = "\n\t\tconfig.clientSourceDir + '/**/**.scss',"
       } else {
+        answers.styleExt = 'css';
         styleFiles = gulp.src(__dirname + '/templates/full/css/**')
           .pipe(conflict(destination))
           .pipe(gulp.dest(destination));
       }
 
-      var filter = gulpFilter(['**/**', '!src/favicon.ico'], { 
-        restore: true,
-        dot: true  
-      });
-      
-      // Leave minified template untouched
-      answers.minified = '<%= minified %>';
+      var packageJsonFilter = gulpFilter('package.json', { restore: true });
+      var secondPackageJsonFilter = gulpFilter('package.json');
 
-      es.concat(gulp.src(__dirname + '/templates/full/root/**', { dot: true })
-        .pipe(filter)
-        .pipe(template(answers))
-        .pipe(filter.restore)
+      var staticFiles = gulp.src(__dirname + '/templates/full/' + scriptDir + '/**', { dot: true })
+        .pipe(template(answers, { interpolate: /<%=([\s\S]+?)%>/g }))
         .pipe(rename(function (path) {
           if (path.basename === '.npmignore') {
             path.basename = '.gitignore';
           }
         }))
+        .pipe(packageJsonFilter)
+        .pipe(jsonEditor(function (json) {
+          if (answers.styleExt === 'scss') {
+            json.jspm.devDependencies.scss = 'github:mobilexag/plugin-sass@^0.1.0';
+          } else {
+            json.jspm.devDependencies.css = 'github:systemjs/plugin-css@^0.1.19';
+            json.jspm.devDependencies['clean-css'] = 'npm:clean-css@^3.4.8';
+          }
+          return json;
+        }))
+        .pipe(packageJsonFilter.restore)
         .pipe(conflict(destination))
         .pipe(gulp.dest(destination))
-        .pipe(install({
-          args: 'only=dev'
-        })), staticFiles, styleFiles)
-        .on('end', function () {
-          if (useTypescript(answers)) {
-            tsd({
-              command: 'reinstall',
-              config: destination + 'tsd.json'
-            }, done);
-          } else {
-            done();
-          }
-        })
-        //.resume();
+        .pipe(secondPackageJsonFilter)
+        .pipe(install());
+
+      var sharedFiles = gulp.src(__dirname + '/templates/full/root/**')
+        .pipe(conflict(destination))
+        .pipe(gulp.dest(destination));
+
+      es.concat(sharedFiles, staticFiles, styleFiles)
+        .on('end', done);
     });
   });
-}
-
-function addPackages(answers) {
-  var packageDelimiter = ',\n\t\t';
-  var packages = [];
-  var devPackages = [];
-  answers.packages = '';
-  answers.devPackages = '';
-
-  if (useTypescript(answers)) {
-    devPackages.push(['gulp-typescript', '^2.9.0']);
-    devPackages.push(['typescript', '^1.6.2']);
-    devPackages.push(['async', '^1.4.2']);
-    devPackages.push(['gulp-intermediate', '^3.0.1']);
-    devPackages.push(['uglifyify', '^3.0.1']);
-  } else {
-    devPackages.push(['babelify', '^6.3.0']);
-  }
-
-  if (answers.sass.indexOf('SASS') != -1) {
-    devPackages.push(['gulp-sass', '^2.0.4']);
-  }
-
-  packages.forEach(function (package, index) {
-    answers.packages += packageDelimiter + '"' + package[0] + '": "' + package[1] + '"';
-  });
-  devPackages.forEach(function (package, index) {
-    answers.devPackages += packageDelimiter + '"' + package[0] + '": "' + package[1] + '"';
-  });
-  return answers;
 }
 
 function useTypescript(answers) {

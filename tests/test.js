@@ -98,24 +98,17 @@ describe('slush-react-express', function () {
       });
     });
 
-    it('should add a gulpfile to project root', function (done) {
-      gulp.start('default').once('stop', function () {
-        mockGulpDest.assertDestContains('gulpfile.js');
-        done();
-      });
-    });
-
-    describe('should add static files to src', function () {
+    describe('should add static files', function () {
       it('should add favicon.ico', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('src/favicon.ico');
+          mockGulpDest.assertDestContains('src/client/static/favicon.ico');
           done();
         });
       });
 
       it('should add index.html', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('src/index.html');
+          mockGulpDest.assertDestContains('src/client/static/index.html');
           done();
         });
       });
@@ -128,8 +121,8 @@ describe('slush-react-express', function () {
 
       it('should add css file to src by default', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('src/stylesheets/index.css');
-          mockGulpDest.assertDestNotContains('src/stylesheets/index.scss');
+          mockGulpDest.assertDestContains('src/client/app/style/index.css');
+          mockGulpDest.assertDestNotContains('src/client/app/style/index.scss');
           done();
         });
       });
@@ -142,8 +135,8 @@ describe('slush-react-express', function () {
 
       it('should add sass file to src', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestNotContains('src/stylesheets/index.css');
-          mockGulpDest.assertDestContains('src/stylesheets/index.scss');
+          mockGulpDest.assertDestNotContains('src/client/app/style/index.css');
+          mockGulpDest.assertDestContains('src/client/app/style/index.scss');
           done();
         });
       });
@@ -154,39 +147,75 @@ describe('slush-react-express', function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
       });
 
-
-      it('should add index.js', function (done) {
-        generator.generate(function () {
-          mockGulpDest.assertDestContains('routes/index.js');
-          // Should not contain Typescript files
-          mockGulpDest.assertDestNotContains('routes/index.ts');
+      it('should add the correct gulpfile to project root', function (done) {
+        gulp.start('default').once('stop', function () {
+          mockGulpDest.assertDestContains('gulpfile.js');
+          mockGulpDest.assertDestNotContains('gulpfile.ts');
           done();
         });
       });
 
-      it('should add main.jsx', function (done) {
-        generator.generate(function () {
-          mockGulpDest.assertDestContains('src/react/main.jsx');
-          // Should not contain Typescript files
-          mockGulpDest.assertDestNotContains('src/react/main.tsx');
+      it('should add the correct gulpconfig to project root', function (done) {
+        gulp.start('default').once('stop', function () {
+          mockGulpDest.assertDestContains('gulpconfig.js');
+          mockGulpDest.assertDestNotContains('gulpconfig.ts');
           done();
         });
       });
 
-      it('should add test.js', function (done) {
+      it('should add server index.js', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('tests/test.js');
+          mockGulpDest.assertDestContains('src/server/route/index.js');
           // Should not contain Typescript files
-          mockGulpDest.assertDestNotContains('tests/test.ts');
+          mockGulpDest.assertDestNotContains('src/server/route/index.ts');
           done();
+        });
+      });
+
+      it('should add client index.js', function (done) {
+        generator.generate(function () {
+          mockGulpDest.assertDestContains('src/client/app/index.js');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/client/app/src/index.tsx');
+          done();
+        });
+      });
+
+      describe('should add tests', function () {
+        it('appname test', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/appname.js');
+            // Should not contain Typescript files
+            mockGulpDest.assertDestNotContains('test/server/appname.ts');
+            done();
+          });
+        });
+
+        it('listening test', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/listening.js');
+            // Should not contain Typescript files
+            mockGulpDest.assertDestNotContains('test/server/listening.ts');
+            done();
+          });
+        });
+
+
+        it('test utils', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/util/address.js');
+            // Should not contain Typescript files
+            mockGulpDest.assertDestNotContains('test/server/util/address.ts');
+            done();
+          });
         });
       });
 
       it('should add server.js', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('server.js');
+          mockGulpDest.assertDestContains('src/server/server.js');
           // Should not contain Typescript files
-          mockGulpDest.assertDestNotContains('server.ts');
+          mockGulpDest.assertDestNotContains('src/server/server.ts');
           done();
         });
       });
@@ -211,48 +240,84 @@ describe('slush-react-express', function () {
         mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'sass': 'CSS', 'ts': 'TypeScript', 'createDir': false });
       });
 
+      it('should add the correct gulpfile to project root', function (done) {
+        gulp.start('default').once('stop', function () {
+          mockGulpDest.assertDestNotContains('gulpfile.js');
+          mockGulpDest.assertDestContains('gulpfile.ts');
+          done();
+        });
+      });
+
+      it('should add the correct gulpconfig to project root', function (done) {
+        gulp.start('default').once('stop', function () {
+          mockGulpDest.assertDestNotContains('gulpconfig.js');
+          mockGulpDest.assertDestContains('gulpconfig.ts');
+          done();
+        });
+      });
 
       it('should add index.ts', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('routes/index.ts');
+          mockGulpDest.assertDestContains('src/server/route/index.ts');
           // Should not contain JavaScript files
-          mockGulpDest.assertDestNotContains('routes/index.js');
+          mockGulpDest.assertDestNotContains('src/server/route/index.js');
           done();
         });
       });
 
-      it('should add main.tsx', function (done) {
+      it('should add index.tsx', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('src/react/main.tsx');
+          mockGulpDest.assertDestContains('src/client/app/src/index.tsx');
           // Should not contain JavaScript files
-          mockGulpDest.assertDestNotContains('src/react/main.jsx');
+          mockGulpDest.assertDestNotContains('src/client/app/index.js');
           done();
         });
       });
 
-      it('should add test.ts', function (done) {
-        generator.generate(function () {
-          mockGulpDest.assertDestContains('tests/test.ts');
-          // Should not contain JavaScript files
-          mockGulpDest.assertDestNotContains('tests/test.js');
-          done();
+      describe('should add tests', function () {
+        it('appname test', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/appname.ts');
+            // Should not contain JavaScript files
+            mockGulpDest.assertDestNotContains('test/server/appname.js');
+            done();
+          });
+        });
+
+        it('listening test', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/listening.ts');
+            // Should not contain JavaScript files
+            mockGulpDest.assertDestNotContains('test/server/listening.js');
+            done();
+          });
+        });
+
+
+        it('test utils', function (done) {
+          generator.generate(function () {
+            mockGulpDest.assertDestContains('test/server/util/address.ts');
+            // Should not contain JavaScript files
+            mockGulpDest.assertDestNotContains('test/server/util/address.js');
+            done();
+          });
         });
       });
 
       it('should add app.ts', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('app.ts');
+          mockGulpDest.assertDestContains('src/server/app.ts');
           // Should not contain JavaScript files
-          mockGulpDest.assertDestNotContains('app.js');
+          mockGulpDest.assertDestNotContains('server/app/app.js');
           done();
         });
       });
 
       it('should add server.ts', function (done) {
         generator.generate(function () {
-          mockGulpDest.assertDestContains('server.ts');
+          mockGulpDest.assertDestContains('src/server/server.ts');
           // Should not contain JavaScript files
-          mockGulpDest.assertDestNotContains('server.js');
+          mockGulpDest.assertDestNotContains('src/server/server.js');
           done();
         });
       });
@@ -285,4 +350,4 @@ function mockPrompt(answers) {
 
     done(answers);
   };
-} 
+}

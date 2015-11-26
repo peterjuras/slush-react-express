@@ -1,4 +1,2 @@
 node_modules
-.vscode
-test
-templates/typescript/typings
+/test

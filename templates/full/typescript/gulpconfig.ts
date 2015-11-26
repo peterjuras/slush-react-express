@@ -14,7 +14,7 @@
 // ----
 // Watch task which will restart the express server if necessary
 
-const config = {
+export default {
   // Location where the build output will be put
   // default: 'dist'
   buildOutDir: 'dist',
@@ -32,7 +32,7 @@ const config = {
   serverSourceDir: 'src/server',
 
   // Tests source files location
-  // default: 'src/server/test'
+  // default: 'test/server'
   testDir: 'test/server',
 
   // Specify which plugins are activated for the production build
@@ -55,14 +55,12 @@ const config = {
   },
 
   // Entry points for jspm bundles. Relative to clientScriptDir
-  // default: [ 'index.js' ]
+  // default: [ 'src/index.tsx' ]
   entryPoints: [
-    'index.js'
+    'src/index.tsx'
   ],
 
   // Bundle output folder. Relative to buildOutDir
   // default: 'client/app'
   bundleOutputDir: 'client/app'
 };
-
-module.exports = config;
