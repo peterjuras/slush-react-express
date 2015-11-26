@@ -7,7 +7,7 @@
     "url": "git+https://github.com/peterjuras/slush-react-express.git"
   },
   "scripts": {
-    "test": "mocha -R spec tests/test.js --require env-test --skip-install"
+    "test": "mocha -R spec tests/test.js --require env-test --skip-install && mocha -R spec tests/full-builds.js --require env-test"
   },
   "keywords": [
     "slushgenerator",
@@ -37,7 +37,9 @@
     "validate-npm-package-name": "^2.2.2"
   },
   "devDependencies": {
+    "del": "^2.1.0",
     "env-test": "^1.0.0",
+    "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "mock-gulp-dest": "^0.1.1",
     "should": "^7.1.0"

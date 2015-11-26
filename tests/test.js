@@ -1,13 +1,12 @@
 var should = require('should'),
-  inquirer = require('inquirer'),
   gulp = require('gulp'),
-  path = require('path'),
+  mockPrompt = require('./util/mock'),
   mockGulpDest = require('mock-gulp-dest')(gulp);
 
 var generator = require('../slushfile');
 
 describe('slush-react-express', function () {
-  this.timeout(10000);
+  this.timeout(5000);
 
   before(function () {
     process.chdir(__dirname);
@@ -338,16 +337,3 @@ describe('slush-react-express', function () {
     });
   });
 });
-
-function mockPrompt(answers) {
-  inquirer.prompt = function (prompts, done) {
-
-    [].concat(prompts).forEach(function (prompt) {
-      if (!(prompt.name in answers)) {
-        answers[prompt.name] = prompt.default;
-      }
-    });
-
-    done(answers);
-  };
-}

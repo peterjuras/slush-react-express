@@ -17,7 +17,7 @@ var gulp = require('gulp'),
 
 // A test destination can be used to check the generators output.
 // "test/" is recommended, since it is ignored by git
-var destination = process.env.testDest || './';
+var dest = process.env.testDest || './';
 var appName;
 
 gulp.task('default', ['generate']);
@@ -61,18 +61,19 @@ function generate(callback) {
 function generateMinimal(done) {
   emptyDir('./', function (err, dirEmpty) {
     var questions = [];
-    if (destination === './' && !dirEmpty) {
+    if (dest === './' && !dirEmpty) {
       questions.push({
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
       });
     }
     inquirer.prompt(questions, function (answers) {
       answers.appname = appName;
-
-      if (answers.createDir && answers.createDir) {
-        destination = destination + answers.appname + '/';
+      var destination;
+      if (answers.createDir) {
+        destination = dest + answers.appname + '/';
+      } else {
+        destination = dest;
       }
-
       gulp.src(__dirname + '/templates/minimal/**', { dot: true })
         .pipe(template(answers))
         .pipe(rename(function (path) {
@@ -84,6 +85,7 @@ function generateMinimal(done) {
         .pipe(gulp.dest(destination))
         .pipe(install())
         .on('end', done)
+        .on('error', done)
         .resume();
     });
   });
@@ -110,16 +112,18 @@ function generateFull(done) {
         default: 0
       }
     ];
-    if (destination === './' && !dirEmpty) {
+    if (dest === './' && !dirEmpty) {
       questions.push({
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
       });
     }
     inquirer.prompt(questions, function (answers) {
       answers.appname = appName;
-
-      if (answers.createDir && answers.createDir) {
-        destination = destination + answers.appname + '/';
+      var destination;
+      if (answers.createDir) {
+        destination = dest + answers.appname + '/';
+      } else {
+        destination = dest;
       }
 
       var scriptDir = 'javascript';
