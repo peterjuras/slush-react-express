@@ -135,7 +135,7 @@ describe('slush-react-express', function() {
         });
       });
 
-      it('css', function(done) {
+      it('sass', function(done) {
         mockPrompt({
           'appname': 'FULL TS SASS',
           'type': 'Full',
