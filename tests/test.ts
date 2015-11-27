@@ -1,6 +1,7 @@
 require('should');
 import gulp = require('gulp');
 import mockPrompt from './util/mock';
+import path = require('path');
 const mockGulpDest = require('mock-gulp-dest')(gulp);
 
 import generate from '../slushfile';
@@ -14,13 +15,13 @@ describe('slush-react-express', function () {
 
   describe('Minimal generator', () => {
     beforeEach(() => {
-      mockPrompt({ 'appname': 'Test Name', 'type': 'Minimal', 'createDir': false });
+      mockPrompt({ 'appname': 'Test Name', 'type': 'Minimal', 'createDir': true });
     });
 
-    it('should put files in current working directory', done => {
+    it('should put files in test-name directory', done => {
       generate(() => {
         mockGulpDest.cwd().should.equal(__dirname);
-        mockGulpDest.basePath().should.equal(__dirname);
+        mockGulpDest.basePath().should.equal(path.join(__dirname, 'test-name'));
         done();
       });
     });
@@ -72,13 +73,13 @@ describe('slush-react-express', function () {
 
   describe('Full generator', () => {
     beforeEach(() => {
-      mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
+      mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': true });
     });
 
     it('should put files in current working directory', done => {
       generate(() => {
         mockGulpDest.cwd().should.equal(__dirname);
-        mockGulpDest.basePath().should.equal(__dirname);
+        mockGulpDest.basePath().should.equal(path.join(__dirname, 'test-name'));
         done();
       });
     });
@@ -115,7 +116,7 @@ describe('slush-react-express', function () {
 
     describe('CSS', () => {
       beforeEach(() => {
-        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
+        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': true });
       });
 
       it('should add css file to src by default', done => {
@@ -129,7 +130,7 @@ describe('slush-react-express', function () {
 
     describe('Sass', () => {
       beforeEach(() => {
-        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'SASS', 'createDir': false });
+        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'SASS', 'createDir': true });
       });
 
       it('should add sass file to src', done => {
@@ -143,7 +144,7 @@ describe('slush-react-express', function () {
 
     describe('JavaScript', () => {
       beforeEach(() => {
-        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': false });
+        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'ts': 'JavaScript', 'sass': 'CSS', 'createDir': true });
       });
 
       it('should add the correct gulpfile to project root', done => {
@@ -236,7 +237,7 @@ describe('slush-react-express', function () {
 
     describe('TypeScript', () => {
       beforeEach(() => {
-        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'sass': 'CSS', 'ts': 'TypeScript', 'createDir': false });
+        mockPrompt({ 'appname': 'Test Name', 'type': 'Full', 'sass': 'CSS', 'ts': 'TypeScript', 'createDir': true });
       });
 
       it('should add the correct gulpfile to project root', done => {

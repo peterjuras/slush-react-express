@@ -43,7 +43,6 @@ gulp.task('generate:full', generateFull);
 
 function generate(callback : gulp.TaskCallback) {
   const workingDirName = process.cwd().split('/').pop().split('\\').pop();
-
   if (process.env.NODE_ENV !== "test") {
     console.log('Welcome to the react-express slush generator!');
   }
