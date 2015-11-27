@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "tsc && mocha -R spec test/test.js --require env-test --skip-install && mocha -R spec test/full-builds.js --require env-test",
+    "clean": "rm -rf slushfile.js test/full-builds.js test/test.js test/full-builds test/util/mock.js",
     "prepublish": "tsc",
     "postinstall": "tsd install"
   },

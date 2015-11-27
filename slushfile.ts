@@ -86,7 +86,7 @@ function generateMinimal(done : gulp.TaskCallback) {
       } else {
         destination = dest;
       }
-      gulp.src(__dirname + '/templates/minimal/**', { dot: true })
+      const scaffold : any = gulp.src(__dirname + '/templates/minimal/**', { dot: true })
         .pipe(template(answers))
         .pipe(rename(function (path) {
           if (path.basename === '.npmignore') {
@@ -98,6 +98,7 @@ function generateMinimal(done : gulp.TaskCallback) {
         .pipe(install())
         .on('end', done)
         .on('error', done);
+      scaffold.resume();
     });
   });
 }
