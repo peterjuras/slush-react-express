@@ -5,14 +5,20 @@
 //
 // ---- Default ----
 // Run "gulp"
-// (equals to running "gulp build")
 // ----
-// Default build task that bundles and copies all source files and moves them to a destination location.
+// (same as "gulp test")
+//
+// Default build + test task that bundles and compiles all source files, moves them to a destination location and puts the build output through all tests.
+//
+// ---- Build ----
+// Run "gulp build"
+// ----
+// Bundles and compiles all source files and moves them to the destination location without running any tests.
 //
 // ---- Watch ----
 // Run "gulp watch"
 // ----
-// Watch task which will restart the express server if necessary
+// Watch task which will restart the server or hot reload browser module if necessary.
 
 export default {
   // Location where the build output will be put

@@ -1,5 +1,15 @@
 Changelog - slush-react-express
 ==============
+# 3.0.0
+* Switched to JSPM allowing for on the fly compilation
+* There are no longer any builds needed for development! Everything is compiled on the fly, drastically reducing development downtime
+* Production builds are more than twice as fast now.
+* Drastically simplified gulp tasks
+* Reordered the folder structure of the full templates to clearly separate client code from server code and adhere to common standards
+* All templates now use even more ES6 features
+* Full/TypeScript: The gulpfile is now also written in TypeScript
+* Updated all modules to their newest versions and React to 0.14.3
+
 ## 2.1.0
 
 * Rewrote gulp builds to be faster, cleaner and more configurable.
