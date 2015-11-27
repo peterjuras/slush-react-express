@@ -60,9 +60,10 @@ my-react-express-app/
 ├── package.json
 ├── server.js                               # Main node entry point
 └── public
-    └── javascripts
-        └── main.jsx                        # Main react component and entry point
-    └── stylesheets
+    ├── javascripts
+        ├── main.jsx                        # Main react component and entry point
+        └── vendor                          # Vendor folder for babel and React
+    ├── stylesheets
         └── index.css                       # Main app stylesheet
     └── index.html                          # Main browser entry point
 ```
