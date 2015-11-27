@@ -1,6 +1,6 @@
 node_modules
-/test
-/tests/full-builds
+/tests
+/test/full-builds
 typings
 /*.js
 npm-debug.log

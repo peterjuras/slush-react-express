@@ -7,8 +7,8 @@
   "exclude": [
     "templates",
     "node_modules",
-    "test",
-    "tests/full-builds",
+    "tests",
+    "test/full-builds",
     "dist"
   ]
 }

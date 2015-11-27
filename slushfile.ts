@@ -1,19 +1,20 @@
 import gulp = require('gulp');
 import install = require('gulp-install');
-const conflict = require('gulp-conflict');
-const template = require('gulp-template');
-const es = require('event-stream');
+import conflict = require('gulp-conflict');
+import template = require('gulp-template');
 import inquirer = require('inquirer');
 import rename = require('gulp-rename');
-const emptyDir = require('empty-dir');
+import emptyDir = require('empty-dir');
 import jsonEditor = require('gulp-json-editor');
 import gulpFilter = require('gulp-filter');
 import run = require('run-sequence');
-const validateName = require('validate-npm-package-name');
+import validateName = require('validate-npm-package-name');
 import path = require('path');
 
+const es = require('event-stream');
+
 // A test destination can be used to check the generators output.
-// "test/" is recommended, since it is ignored by git
+// "tests/" is recommended, since it is ignored by git
 const dest = process.env.testDest || './';
 let appName : string;
 
@@ -96,8 +97,7 @@ function generateMinimal(done : gulp.TaskCallback) {
         .pipe(gulp.dest(destination))
         .pipe(install())
         .on('end', done)
-        .on('error', done)
-        .resume();
+        .on('error', done);
     });
   });
 }

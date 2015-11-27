@@ -9,16 +9,16 @@
       "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
     },
     "node/node.d.ts": {
-      "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
     },
     "gulp/gulp.d.ts": {
-      "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
     },
     "orchestrator/orchestrator.d.ts": {
-      "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
     },
     "q/Q.d.ts": {
-      "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
     },
     "inquirer/inquirer.d.ts": {
       "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
@@ -67,6 +67,24 @@
     },
     "mkdirp/mkdirp.d.ts": {
       "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
+    },
+    "gulp-conflict/gulp-conflict.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
+    },
+    "gulp-template/gulp-template.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
+    },
+    "mock-gulp-dest/mock-gulp-dest.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
+    },
+    "validate-npm-package-name/validate-npm-package-name.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
+    },
+    "empty-dir/empty-dir.d.ts": {
+      "commit": "c50f6872583ffb0b9b26a780db7825ed5e17fcee"
     }
   }
 }
