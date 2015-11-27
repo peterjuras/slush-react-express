@@ -142,7 +142,7 @@ function generateFull(done : gulp.TaskCallback) {
     inquirer.prompt(questions, function (answers : FullAnswers) {
       let destination : string;
       if (answers.createDir) {
-        destination = dest + answers.appname + '/';
+        destination = dest + appName + '/';
       } else {
         destination = dest;
       }
