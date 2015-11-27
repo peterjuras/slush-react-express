@@ -62,6 +62,15 @@ describe('slush-react-express', function () {
           done();
         });
       });
+
+      it('should add vendor libraries to the vendor folder', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('public/javascripts/vendor/babel-core.browser.5.8.34.js');
+          mockGulpDest.assertDestContains('public/javascripts/vendor/react.0.14.3.js');
+          mockGulpDest.assertDestContains('public/javascripts/vendor/react-dom.0.14.3.js');
+          done();
+        })
+      });
     });
 
     it('should add the node server file to the root folder', done => {

@@ -9,6 +9,7 @@ Changelog - slush-react-express
 * Reordered the folder structure of the full templates to clearly separate client code from server code and adhere to common standards
 * All templates now use even more ES6 features
 * Full/TypeScript: The gulpfile is now also written in TypeScript
+* Minimal: React and babel are now saved locally instead of a CDN.
 * Updated all modules to their newest versions and React to 0.14.3
 * Slush Generator: Rewritten from scratch in TypeScript
 * Slush Generator: Cleaned up and minimized npm-published files

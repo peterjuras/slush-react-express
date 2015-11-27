@@ -86,8 +86,18 @@ function generateMinimal(done : gulp.TaskCallback) {
       } else {
         destination = dest;
       }
+
+      const templateFilter = gulpFilter([
+        'package.json',
+        'server.js',
+        'public/index.html',
+        'public/javascripts/main.jsx'
+      ], { restore: true });
+
       const scaffold : any = gulp.src(__dirname + '/templates/minimal/**', { dot: true })
+        .pipe(templateFilter)
         .pipe(template(answers))
+        .pipe(templateFilter.restore)
         .pipe(rename(function (path) {
           if (path.basename === '.npmignore') {
             path.basename = '.gitignore';
