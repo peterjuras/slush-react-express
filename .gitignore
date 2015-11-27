@@ -3,5 +3,4 @@ node_modules
 /tests/full-builds
 typings
 /*.js
-/tests/**/*.js
 npm-debug.log

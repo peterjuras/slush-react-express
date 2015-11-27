@@ -14,7 +14,8 @@
     "slushgenerator",
     "node",
     "react",
-    "express"
+    "express",
+    "jspm"
   ],
   "files": [
     "slushfile.js",
