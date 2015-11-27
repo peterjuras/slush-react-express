@@ -8,19 +8,19 @@
 // ----
 // (same as "gulp test")
 //
-// Default build + test task that bundles and copies all source files, moves them to a destination location and puts the build output through all tests.
+// Default build + test task that bundles and compiles all source files, moves them to a destination location and puts the build output through all tests.
 //
 // ---- Build ----
 // Run "gulp build"
 // ----
-// Bundles and copies all source files and moves them to the destination location without running any tests.
+// Bundles and compiles all source files and moves them to the destination location without running any tests.
 //
 // ---- Watch ----
 // Run "gulp watch"
 // ----
 // Watch task which will restart the server or hot reload browser module if necessary.
 
-const config = {
+export default {
   // Location where the build output will be put
   // default: 'dist'
   buildOutDir: 'dist',
@@ -37,7 +37,7 @@ const config = {
   // default: 'src/server'
   serverSourceDir: 'src/server',
 
-  // Server tests source files location
+  // Tests source files location
   // default: 'test/server'
   testDir: 'test/server',
 
@@ -61,14 +61,12 @@ const config = {
   },
 
   // Entry points for jspm bundles. Relative to clientScriptDir
-  // default: [ 'index.js' ]
+  // default: [ 'src/index.tsx' ]
   entryPoints: [
-    'index.js'
+    'src/index.tsx'
   ],
 
   // Bundle output folder. Relative to buildOutDir
   // default: 'client/app'
   bundleOutputDir: 'client/app'
 };
-
-module.exports = config;

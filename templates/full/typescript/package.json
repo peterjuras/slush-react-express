@@ -1,0 +1,54 @@
+{
+  "name": "<%= appname %>",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "ts-node src/server/server.ts",
+    "test": "gulp test",
+    "postinstall": "tsd install && jspm install"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "chokidar-socket-emitter": "^0.3.0",
+    "del": "^2.1.0",
+    "env-test": "^1.0.0",
+    "gulp": "^3.9.0",
+    "gulp-filter": "3.0.1",
+    "gulp-html-replace": "^1.5.5",
+    "gulp-install": "^0.6.0",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-jspm": "^0.5.5",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-mocha": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-typescript": "^2.9.2",
+    "gulp-util": "^3.0.7",
+    "jspm": "^0.16.15",
+    "mkpath": "^1.0.0",
+    "mocha": "^2.3.4",
+    "morgan": "^1.6.1",
+    "should": "^7.1.1",
+    "superagent": "^1.4.0",
+    "ts-node": "^0.5.4",
+    "tsd": "^0.6.5"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src/client/app"
+    },
+    "devDependencies": {
+      "react": "npm:react@^0.14.3",
+      "react-dom": "npm:react-dom@^0.14.3",
+      "babel": "npm:babel-core@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "capaj/jspm-hot-reloader": "github:capaj/jspm-hot-reloader@^0.4.2",
+      "ts": "github:frankwallis/plugin-typescript@^2.2.2",
+      "tsx": "github:frankwallis/plugin-typescript@^2.2.2"
+    }
+  }
+}

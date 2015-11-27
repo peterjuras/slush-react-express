@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "jsx": "react",
     "noImplicitAny": true
   },
   "compileOnSave": false,
   "exclude": [
+    "templates",
     "node_modules",
-    "src/client/app/jspm_packages",
+    "tests",
+    "test/full-builds",
     "dist"
   ]
 }

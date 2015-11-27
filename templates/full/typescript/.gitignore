@@ -1,0 +1,7 @@
+node_modules
+dist
+jspm_packages
+typings
+/*.js
+!static/
+!config.js

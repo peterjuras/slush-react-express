@@ -1,4 +1,6 @@
 node_modules
-.vscode
-test
-templates/typescript/typings
+/tests
+/test/full-builds
+typings
+/*.js
+npm-debug.log

@@ -7,13 +7,21 @@
     "url": "git+https://github.com/peterjuras/slush-react-express.git"
   },
   "scripts": {
-    "test": "mocha -R spec tests/test.js --skip-install"
+    "test": "tsc && mocha -R spec test/test.js --require env-test --skip-install && mocha -R spec test/full-builds.js --require env-test",
+    "clean": "rm -rf slushfile.js test/full-builds.js test/test.js test/full-builds test/util/mock.js",
+    "prepublish": "tsc",
+    "postinstall": "tsd install"
   },
   "keywords": [
     "slushgenerator",
     "node",
     "react",
-    "express"
+    "express",
+    "jspm"
+  ],
+  "files": [
+    "slushfile.js",
+    "templates"
   ],
   "author": "Peter Juras",
   "license": "MIT",
@@ -28,16 +36,21 @@
     "gulp-conflict": "^0.4.0",
     "gulp-filter": "^3.0.1",
     "gulp-install": "^0.6.0",
+    "gulp-json-editor": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^3.0.0",
-    "gulp-tsd": "0.0.4",
     "inquirer": "^0.10.1",
     "run-sequence": "^1.1.4",
     "validate-npm-package-name": "^2.2.2"
   },
   "devDependencies": {
+    "del": "^2.1.0",
+    "env-test": "^1.0.0",
+    "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "mock-gulp-dest": "^0.1.1",
-    "should": "^7.1.0"
+    "should": "^7.1.0",
+    "tsd": "^0.6.5",
+    "typescript": "^1.6.2"
   }
 }
