@@ -1,3 +1,7 @@
 node_modules
 /test
-tests/full-builds
+/tests/full-builds
+typings
+/*.js
+/tests/**/*.js
+npm-debug.log

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "templates",
+    "node_modules",
+    "test",
+    "tests/full-builds",
+    "dist"
+  ]
+}
