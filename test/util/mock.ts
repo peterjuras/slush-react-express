@@ -1,6 +1,6 @@
 import inquirer = require('inquirer');
 
-export default function mockPrompt(answers : inquirer.Answers) {
+export default function mockPrompt(answers: inquirer.Answers) {
   inquirer.prompt = (prompts, done) : any => {
 
     [].concat(prompts).forEach(prompt => {

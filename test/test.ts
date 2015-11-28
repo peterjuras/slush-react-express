@@ -69,7 +69,7 @@ describe('slush-react-express', function () {
           mockGulpDest.assertDestContains('public/javascripts/vendor/react.0.14.3.js');
           mockGulpDest.assertDestContains('public/javascripts/vendor/react-dom.0.14.3.js');
           done();
-        })
+        });
       });
     });
 
@@ -258,7 +258,6 @@ describe('slush-react-express', function () {
             });
           });
 
-
           it('test utils', done => {
             generate(() => {
               mockGulpDest.assertDestContains('test/server/util/address.js');
@@ -426,7 +425,6 @@ describe('slush-react-express', function () {
               done();
             });
           });
-
 
           it('test utils', done => {
             generate(() => {
