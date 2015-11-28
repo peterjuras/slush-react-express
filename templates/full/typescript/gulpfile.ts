@@ -191,7 +191,7 @@ gulp.task('server', () => {
   const watchEnvironment = extend(process.env, { 'gulp:watch': true });
 
   // Start the node server with the node entry point
-  node = spawn('ts-node', [path.join(config.serverSourceDir, 'server.ts')], {
+  node = spawn('node_modules/.bin/ts-node', [path.join(config.serverSourceDir, 'server.ts')], {
     stdio: 'inherit',
     env: watchEnvironment,
   });
