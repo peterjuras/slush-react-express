@@ -21,8 +21,6 @@ const sourcemaps = require('gulp-sourcemaps');      // Writes inline sourcemaps 
 const spawn = require('child_process').spawn;       // Spawns a node server to enable incremental compilation
 const stripDebug = require('gulp-strip-debug');     // Removes debug statements from script files
 
-require('babel-core/register')                      // Use babel to translate client test files
-
 // The watch task spawns a node server which will be referenced in this variable,
 // to be able to kill it when the server needs to be restarted.
 let node;
@@ -170,6 +168,7 @@ gulp.task('test:server', ['copy:server-tests'], () => {
 
 // Runs all client side tests
 gulp.task('test:client', ['test:server'], () => {
+  require('babel-core/register') // Use babel to translate client test files
   return gulp.src(`${config.testDirClient}/**/*.js`, { read: false })
     .pipe(gulpMocha({
       compilers: ['js:babel-core/register'],
