@@ -21,6 +21,8 @@ const sourcemaps = require('gulp-sourcemaps');      // Writes inline sourcemaps 
 const spawn = require('child_process').spawn;       // Spawns a node server to enable incremental compilation
 const stripDebug = require('gulp-strip-debug');     // Removes debug statements from script files
 
+require('babel-core/register')                      // Use babel to translate client test files
+
 // The watch task spawns a node server which will be referenced in this variable,
 // to be able to kill it when the server needs to be restarted.
 let node;
@@ -141,10 +143,13 @@ gulp.task('create:gitignore', done => {
   });
 });
 
+// Runs all unit test within the test directory with mocha
+gulp.task('test', ['test:client']);
+
 // Copies all server side tests
-gulp.task('copy:tests', ['build'], () => {
+gulp.task('copy:server-tests', ['build'], () => {
   return gulp.src([
-      `${config.testDir}/**/**`,
+      `${config.testDirServer}/**/**`,
     ], { base: './' })
     .pipe(gulp.dest(config.buildOutDir));
 });
@@ -153,14 +158,23 @@ function deleteTestsInBuildOutDir() {
   del(path.join(config.buildOutDir, 'test'));
 }
 
-// Runs all unit test within the test directory with mocha
-gulp.task('test', ['copy:tests'], () => {
-  return gulp.src(`${path.join(config.buildOutDir, config.testDir)}/**/*.js`, { read: false })
+// Runs all server tests
+gulp.task('test:server', ['copy:server-tests'], () => {
+  return gulp.src(`${path.join(config.buildOutDir, config.testDirServer)}/**/*.js`, { read: false })
     .pipe(gulpMocha({
       require: ['env-test']
     }))
     .on('end', deleteTestsInBuildOutDir)
     .on('error', deleteTestsInBuildOutDir);;
+});
+
+// Runs all client side tests
+gulp.task('test:client', ['test:server'], () => {
+  return gulp.src(`${config.testDirClient}/**/*.js`, { read: false })
+    .pipe(gulpMocha({
+      compilers: ['js:babel-core/register'],
+      require: ['env-test']
+    }));
 });
 
 // Creates a node server which will be used by 'gulp watch'

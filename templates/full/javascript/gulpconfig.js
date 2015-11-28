@@ -39,7 +39,11 @@ const config = {
 
   // Server tests source files location
   // default: 'test/server'
-  testDir: 'test/server',
+  testDirServer: 'test/server',
+
+  // Client tests source files location
+  // default: 'test/client'
+  testDirClient: 'test/client',
 
   // Specify which plugins are activated for the production build
   plugins: {
