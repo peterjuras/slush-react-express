@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 3.3.0
+
+* Full templates now have React unit tests using the React shallow renderer.
+
 # 3.2.0
 
 * Full templates are now using express-react-views to render server views with React.

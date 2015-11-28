@@ -103,9 +103,10 @@ my-react-express-app/
     ├── client                              # Client side files go here
         ├── app                             # Script files
             ├── config.js                   # Configuration file for jspm
-            ├── index.js/tsx                # Main react component and entry point (TypeScript file in src/)
+            ├── index.js/tsx                # Main entry point (TypeScript file in src/)
             ├── view
-                └── NameLoaderView.js/tsx   # Sample react component (TypeScript file in src/)
+                ├── NameLoader.js/tsx       # Sample react stateful component (TypeScript file in src/)
+                └── NameLoaderView.js/tsx   # Sample react stateless component (TypeScript file in src/)
             └── style
                 └── index.css/scss          # Main app stylesheet
         └── static                          # Static files
@@ -122,7 +123,12 @@ my-react-express-app/
         ├── app.js/ts                       # Express app definition
         └── server.js/ts                    # Main node entry point
 └── test                                    # Mocha tests go here
-    └── server
+    ├── client                              # Client side tests
+        ├── util                                  
+            └── Wrapper.js/tsx              # React wrapper for stateless components
+        ├── NameLoader-test.js/tsx          # Sample tests for the NameLoader component
+        └── NameLoaderView-test.js/tsx      # Sample tests for the NameLoaderView component
+    └── server                              # Server side tests
         ├── util                                
             └── address.js/ts               # Sample test util
         ├── appname.js/ts                   # Sample test

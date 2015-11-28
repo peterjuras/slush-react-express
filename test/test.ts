@@ -191,32 +191,81 @@ describe('slush-react-express', function () {
         });
       });
 
+      it('should add NameLoader component', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/client/app/view/NameLoader.js');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/client/app/src/view/NameLoader.tsx');
+          done();
+        });
+      });
+
+      it('should add NameLoaderView component', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/client/app/view/NameLoaderView.js');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/client/app/src/view/NameLoaderView.tsx');
+          done();
+        });
+      });
+
       describe('should add tests', () => {
-        it('appname test', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/appname.js');
-            // Should not contain Typescript files
-            mockGulpDest.assertDestNotContains('test/server/appname.ts');
-            done();
+        describe('client', () => {
+          it('NameLoader test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/NameLoader-test.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/client/NameLoader-test.tsx');
+              done();
+            });
+          });
+
+          it('NameLoaderView test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/NameLoaderView-test.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/client/NameLoaderView-test.tsx');
+              done();
+            });
+          });
+
+          it('Wrapper util', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/util/Wrapper.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/client/util/Wrapper.tsx');
+              done();
+            });
           });
         });
 
-        it('listening test', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/listening.js');
-            // Should not contain Typescript files
-            mockGulpDest.assertDestNotContains('test/server/listening.ts');
-            done();
+        describe('server', () => {
+          it('appname test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/appname.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/server/appname.ts');
+              done();
+            });
           });
-        });
+
+          it('listening test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/listening.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/server/listening.ts');
+              done();
+            });
+          });
 
 
-        it('test utils', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/util/address.js');
-            // Should not contain Typescript files
-            mockGulpDest.assertDestNotContains('test/server/util/address.ts');
-            done();
+          it('test utils', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/util/address.js');
+              // Should not contain Typescript files
+              mockGulpDest.assertDestNotContains('test/server/util/address.ts');
+              done();
+            });
           });
         });
       });
@@ -311,32 +360,81 @@ describe('slush-react-express', function () {
         });
       });
 
+      it('should add NameLoader component', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/client/app/src/view/NameLoader.tsx');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/client/app/view/NameLoader.js');
+          done();
+        });
+      });
+
+      it('should add NameLoaderView component', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/client/app/src/view/NameLoaderView.tsx');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/client/app/view/NameLoaderView.js');
+          done();
+        });
+      });
+
       describe('should add tests', () => {
-        it('appname test', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/appname.ts');
-            // Should not contain JavaScript files
-            mockGulpDest.assertDestNotContains('test/server/appname.js');
-            done();
+        describe('client', () => {
+          it('NameLoader test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/NameLoader-test.tsx');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/client/NameLoader-test.js');
+              done();
+            });
+          });
+
+          it('NameLoaderView test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/NameLoaderView-test.tsx');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/client/NameLoaderView-test.js');
+              done();
+            });
+          });
+
+          it('Wrapper util', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/client/util/Wrapper.tsx');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/client/util/Wrapper.js');
+              done();
+            });
           });
         });
 
-        it('listening test', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/listening.ts');
-            // Should not contain JavaScript files
-            mockGulpDest.assertDestNotContains('test/server/listening.js');
-            done();
+        describe('server', () => {
+          it('appname test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/appname.ts');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/server/appname.js');
+              done();
+            });
           });
-        });
+
+          it('listening test', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/listening.ts');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/server/listening.js');
+              done();
+            });
+          });
 
 
-        it('test utils', done => {
-          generate(() => {
-            mockGulpDest.assertDestContains('test/server/util/address.ts');
-            // Should not contain JavaScript files
-            mockGulpDest.assertDestNotContains('test/server/util/address.js');
-            done();
+          it('test utils', done => {
+            generate(() => {
+              mockGulpDest.assertDestContains('test/server/util/address.ts');
+              // Should not contain JavaScript files
+              mockGulpDest.assertDestNotContains('test/server/util/address.js');
+              done();
+            });
           });
         });
       });
