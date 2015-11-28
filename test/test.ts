@@ -230,6 +230,33 @@ describe('slush-react-express', function () {
         });
       });
 
+      it('should add error message class', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/lib/error-message.js');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/server/lib/error-message.ts');
+          done();
+        });
+      });
+
+      it('should add error view template', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/view/error.jsx');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/server/view/error.tsx');
+          done();
+        });
+      });
+
+      it('should add layout view template', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/view/layout.jsx');
+          // Should not contain Typescript files
+          mockGulpDest.assertDestNotContains('src/server/view/layout.tsx');
+          done();
+        });
+      });
+
       it('should not contain tsconfig.json', done => {
         generate(() => {
           mockGulpDest.assertDestNotContains('tsconfig.json');
@@ -328,6 +355,33 @@ describe('slush-react-express', function () {
           mockGulpDest.assertDestContains('src/server/server.ts');
           // Should not contain JavaScript files
           mockGulpDest.assertDestNotContains('src/server/server.js');
+          done();
+        });
+      });
+
+      it('should add error message class', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/lib/error-message.ts');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('src/server/lib/error-message.js');
+          done();
+        });
+      });
+
+      it('should add error view template', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/view/error.tsx');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('src/server/view/error.jsx');
+          done();
+        });
+      });
+
+      it('should add layout view template', done => {
+        generate(() => {
+          mockGulpDest.assertDestContains('src/server/view/layout.tsx');
+          // Should not contain JavaScript files
+          mockGulpDest.assertDestNotContains('src/server/view/layout.jsx');
           done();
         });
       });
