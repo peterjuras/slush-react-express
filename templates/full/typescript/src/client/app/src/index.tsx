@@ -10,10 +10,9 @@ class NameLoader extends React.Component<SharedProps, { appName: string }> {
     super(props);
 
     this.state = { appName: '' };
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick = () => {
     fetch('/api')
       .then(response => response.text())
       .then(text => this.setState({

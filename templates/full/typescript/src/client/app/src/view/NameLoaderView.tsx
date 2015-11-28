@@ -1,24 +1,22 @@
 import * as React from 'react';
 
-export class SharedProps {
+export interface SharedProps {
   staticName: string;
 }
 
-class NameLoaderProps extends SharedProps {
+interface NameLoaderProps extends SharedProps {
   handleClick: () => void;
   appName: string;
 }
 
 // View that displays a button to call the server
-export class NameLoaderView extends React.Component<NameLoaderProps, {}> {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.staticName}</h1>
-        <p>Hello {this.props.staticName}</p>
-        <input type="button" value="Get app name" onClick={this.props.handleClick} />
-        <p>{this.props.appName}</p>
-      </div>
-    );
-  }
-}
+// Note: TypeScript 1.6 does not support stateless components yet, we have to
+// escape the type with any for now.
+export const NameLoaderView : any = (props : NameLoaderProps) => (
+  <div>
+    <h1>{props.staticName}</h1>
+    <p>Hello {props.staticName}</p>
+    <input type="button" value="Get app name" onClick={props.handleClick} />
+    <p>{props.appName}</p>
+  </div>
+);

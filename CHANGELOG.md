@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 3.1.0
+
+* Full/TypeScript: NameLoaderView is now a stateless React component.
+
 # 3.0.0
 * Switched full templates to JSPM allowing for on the fly compilation and **hot-reloading**
 * There are no longer any builds needed for development! Everything is compiled on the fly, drastically reducing development downtime
