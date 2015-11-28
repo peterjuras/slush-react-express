@@ -115,6 +115,9 @@
     },
     "express-react-views/express-react-views.d.ts": {
       "commit": "1b669554c2b8a91616cea3f7eb1403238667fd8d"
+    },
+    "react/react-addons-test-utils.d.ts": {
+      "commit": "1b669554c2b8a91616cea3f7eb1403238667fd8d"
     }
   }
 }

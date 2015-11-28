@@ -220,7 +220,7 @@ gulp.task('clean', () => {
     `!${config.clientScriptDir}/config.js`,
     `!${config.clientScriptDir}/jspm_packages/**/*.js`,
     `${config.serverSourceDir}/**/*.js`,
-    `${config.testDir}/**/*.js`,
+    `test/**/*.js`,
     `gulpfile.js`,
     `gulpconfig.js`
   ]);

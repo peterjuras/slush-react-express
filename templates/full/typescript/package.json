@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ts-node src/server/server.ts",
-    "test": "gulp test",
+    "test": "npm run test-client && npm run test-server",
+    "test-client": "tsc && mocha --recursive test/client/ && gulp clean",
+    "test-server": "gulp test",
     "postinstall": "tsd install && jspm install"
   },
   "dependencies": {
@@ -34,6 +36,7 @@
     "mkpath": "^1.0.0",
     "mocha": "^2.3.4",
     "morgan": "^1.6.1",
+    "react-addons-test-utils": "^0.14.3",
     "should": "^7.1.1",
     "superagent": "^1.4.0",
     "ts-node": "^0.5.4",
