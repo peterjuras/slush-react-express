@@ -38,14 +38,24 @@ gulp.task('build', ['copy:server', 'copy:client', 'bundle:client', 'npm:install'
 
 // Copies all server source files to the build output directory
 gulp.task('copy:server', () => {
+  // Don't touch jsx view files
+  const jsxFilter = gulpFilter([
+    '**/**',
+    '!**/**.jsx'
+  ], { restore: true });
+
   // Get all server files
   return gulp.src(`${config.serverSourceDir}/**/**`, { base: './' })
+  // Remove jsx view files from the stream
+    .pipe(jsxFilter)
   // Initialize source maps
     .pipe(applyPlugin(sourcemaps.init(), config.plugins.sourcemaps))
   // Strip debug messages like console.log from the files
     .pipe(applyPlugin(stripDebug(), config.plugins.stripDebug))
   // Write the source maps
     .pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))
+  // Restore jsx view files into the stream
+    .pipe(jsxFilter.restore)
   // Put the files in the build output directory
     .pipe(gulp.dest(config.buildOutDir));
 });
