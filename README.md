@@ -114,6 +114,11 @@ my-react-express-app/
     └── server                              # Server side files go here
         ├── route                           # Express routes go here
             └── index.js/ts                 # Sample route
+        ├── lib                             #
+            └── error-message.js/ts         # Class that describes a server error
+        ├── view                            # Express routes go here
+            ├── error.js/ts                 # Error React component
+            └── layout.js/ts                # Layout React component to generate valid HTML
         ├── app.js/ts                       # Express app definition
         └── server.js/ts                    # Main node entry point
 └── test                                    # Mocha tests go here
