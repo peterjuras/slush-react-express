@@ -112,6 +112,9 @@
     },
     "gulp-strip-debug/gulp-strip-debug.d.ts": {
       "commit": "3d71d30f8b36450c556cc1aac737206d80fec646"
+    },
+    "express-react-views/express-react-views.d.ts": {
+      "commit": "1b669554c2b8a91616cea3f7eb1403238667fd8d"
     }
   }
 }

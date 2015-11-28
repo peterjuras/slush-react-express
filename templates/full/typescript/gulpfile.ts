@@ -56,6 +56,13 @@ gulp.task('compile:server', () => {
     .pipe(ts(tsProject))
   // Strip debug messages like console.log from the files
     .pipe(applyPlugin(stripDebug(), config.plugins.stripDebug))
+  // Server side tsx templates should still be named tsx instead of js
+    .pipe(rename(path => {
+      if (/\/view$/.test(path.dirname)) {
+        path.extname = '.tsx';
+      }
+      return path;
+    }))
   // Write the source maps
     .pipe(applyPlugin(sourcemaps.write(), config.plugins.sourcemaps))
   // Put the files in the build output directory

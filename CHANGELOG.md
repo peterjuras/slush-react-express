@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 3.2.0
+
+* Full templates are now using express-react-views to render server views with React.
+
 # 3.1.0
 
 * Full/TypeScript: NameLoaderView is now a stateless React component.
