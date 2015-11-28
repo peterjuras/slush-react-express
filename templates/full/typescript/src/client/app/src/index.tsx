@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { NameLoaderView, SharedProps } from './view/NameLoaderView';
+import NameLoader from './view/NameLoader';
 
 import '../style/index.<%= styleExt %>!';
 
