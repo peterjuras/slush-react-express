@@ -3,7 +3,7 @@ before_install:
   - npm install -g jspm tsd
   - npm install -g npm@'>=3.5.0'
   - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
-after_install:
+before_script:
   - tsd install
 node_js:
   - "5.1"
