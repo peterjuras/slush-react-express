@@ -13,7 +13,7 @@ import htmlreplace = require('gulp-html-replace');   // Replaces the jspm script
 import install = require('gulp-install');            // Installs npm packages from a package.json file
 import jeditor = require('gulp-json-editor');        // Modifies the built package.json
 import jspm = require('gulp-jspm');                  // Used to bundle the client source files
-import minifyHtml = require('gulp-minify-html');
+import minifyHtml = require('gulp-htmlmin');
 import mkpath = require('mkpath');                   // Creates folders within a path that don't exist yet
 import gulpMocha = require('gulp-mocha');            // Runs mocha unit tests
 import path = require('path');                       // Ensure path operations are valid in Windows & Unix
@@ -81,7 +81,11 @@ gulp.task('copy:client', () => {
   // Replace System.js with the bundle reference
     .pipe(htmlreplace({ production: 'src/index.bundle.js' }))
   // Minify the html
-    .pipe(applyPlugin(minifyHtml(), config.plugins.minifyHtml))
+    .pipe(applyPlugin(minifyHtml({
+        removeComments: true,
+        collapseWhitespace: true
+    }), config.plugins.minifyHtml))
+
   // Restore all files back into the stream
     .pipe(htmlFilter.restore)
 
