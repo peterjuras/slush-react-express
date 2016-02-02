@@ -10,8 +10,10 @@ System.config({
   typescriptOptions: {
     "jsx": "react",
     "typeCheck": true,
+    "noLib": true,
     "files": [
-      "typings/tsd.d.ts"
+      "typings/tsd.d.ts",
+      "jspm_packages/npm/typescript@1.7.5/lib/lib.d.ts"
     ]
   },
   paths: {

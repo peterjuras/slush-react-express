@@ -53,8 +53,8 @@
       "core-js": "npm:core-js@^1.1.4",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "capaj/jspm-hot-reloader": "github:capaj/jspm-hot-reloader@^0.4.2",
-      "ts": "github:frankwallis/plugin-typescript@^2.2.2",
-      "tsx": "github:frankwallis/plugin-typescript@^2.2.2"
+      "ts": "github:frankwallis/plugin-typescript@2.5.9",
+      "tsx": "github:frankwallis/plugin-typescript@2.5.9"
     }
   }
 }
