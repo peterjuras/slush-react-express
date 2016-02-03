@@ -312,9 +312,9 @@ describe('slush-react-express', function () {
         });
       });
 
-      it('should not contain tsd.json', done => {
+      it('should not contain typings.json', done => {
         generate(() => {
-          mockGulpDest.assertDestNotContains('tsd.json');
+          mockGulpDest.assertDestNotContains('src/client/app/typings.json');
           done();
         });
       });
@@ -489,9 +489,9 @@ describe('slush-react-express', function () {
         });
       });
 
-      it('should add tsd.json', done => {
+      it('should add typings.json', done => {
         generate(() => {
-          mockGulpDest.assertDestContains('tsd.json');
+          mockGulpDest.assertDestContains('src/client/app/typings.json');
           done();
         });
       });
