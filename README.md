@@ -98,12 +98,12 @@ my-react-express-app/
 ├── gulpconfig.js/ts                        # Easy gulpfile configuration
 ├── gulpfile.js/ts                          # See gulp section below
 ├── (tsconfig.json)                         # Typescript only - compile options for typescript
-├── (tsd.json)                              # Typescript only - type information for typescript
 ├── src
     ├── client                              # Client side files go here
         ├── app                             # Script files
             ├── config.js                   # Configuration file for jspm
             ├── index.js/tsx                # Main entry point (TypeScript file in src/)
+            ├── (typings.json)              # Typescript only - type information for typescript
             ├── view
                 ├── NameLoader.js/tsx       # Sample react stateful component (TypeScript file in src/)
                 └── NameLoaderView.js/tsx   # Sample react stateless component (TypeScript file in src/)
