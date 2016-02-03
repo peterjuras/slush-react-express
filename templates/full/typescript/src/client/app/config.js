@@ -12,7 +12,7 @@ System.config({
     "typeCheck": true,
     "noLib": true,
     "files": [
-      "typings/tsd.d.ts",
+      "typings/browser.d.ts",
       "jspm_packages/npm/typescript@1.7.5/lib/lib.d.ts"
     ]
   },

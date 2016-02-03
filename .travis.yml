@@ -1,10 +1,10 @@
 language: node_js
 before_install:
-  - npm install -g jspm tsd
+  - npm install -g jspm typings
   - npm install -g npm@'>=3.5.0'
   - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 before_script:
-  - tsd install
+  - typings install
 node_js:
   - "5.5"
   - "5.4"

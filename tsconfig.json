@@ -9,6 +9,8 @@
     "node_modules",
     "tests",
     "test/full-builds",
-    "dist"
+    "dist",
+    "typings/browser",
+    "typings/browser.d.ts"
   ]
 }

@@ -8,6 +8,8 @@
   "exclude": [
     "node_modules",
     "src/client/app/jspm_packages",
+    "src/client/app/typings/browser",
+    "src/client/app/typings/browser.d.ts",
     "dist"
   ]
 }

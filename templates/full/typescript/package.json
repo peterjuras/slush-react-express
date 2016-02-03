@@ -6,7 +6,8 @@
     "test": "npm run test-client && npm run test-server",
     "test-client": "tsc && mocha --recursive test/client/ && gulp clean",
     "test-server": "gulp test",
-    "postinstall": "tsd install && jspm install"
+    "postinstall": "jspm install && npm run typings",
+    "typings": "cd src/client/app && typings install"
   },
   "dependencies": {
     "express": "^4.13.3",
@@ -40,7 +41,7 @@
     "should": "^7.1.1",
     "superagent": "^1.4.0",
     "ts-node": "^0.5.4",
-    "tsd": "^0.6.5"
+    "typings": "^0.6.5"
   },
   "jspm": {
     "directories": {

@@ -48,7 +48,7 @@ gulp.task('compile:server', () => {
   // Get all server files
   return gulp.src([
     `${config.serverSourceDir}/**/**`,
-    `${config.clientScriptDir}/typings/tsd.d.ts`
+    `${config.clientScriptDir}/typings/main.d.ts`
   ], { base: './' })
   // Initialize source maps
     .pipe(applyPlugin(sourcemaps.init(), config.plugins.sourcemaps))
@@ -162,7 +162,7 @@ gulp.task('create:gitignore', (done : Function) => {
 gulp.task('compile:tests', ['build'], () => {
   return gulp.src([
       `${config.testDir}/**/**.ts`,
-      `${config.clientScriptDir}/typings/tsd.d.ts`
+      `${config.clientScriptDir}/typings/main.d.ts`
     ], { base: './' })
     .pipe(ts(tsProject))
     .js
