@@ -13,7 +13,7 @@
   <script>
     System.trace = true;
     System.import('src/index');
-    System.import('capaj/jspm-hot-reloader').then(function(HotReloader) {
+    System.import('capaj/systemjs-hot-reloader').then(function(HotReloader) {
       new HotReloader.default('http://localhost:3000');
     });
   </script>
