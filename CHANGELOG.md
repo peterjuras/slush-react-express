@@ -4,6 +4,7 @@ Changelog - slush-react-express
 # 3.4.0
 
 * Switched Full/TypeScript template and generator from tsd to typings due to [deprecation](https://github.com/DefinitelyTyped/tsd/issues/269).
+* Full templates: Replaced old jspm-hot-reloader reference with systemjs-hot-reloader.
 
 # 3.3.0
 
