@@ -54,8 +54,8 @@
       "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.5",
       "core-js": "npm:core-js@^1.1.4",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "ts": "github:frankwallis/plugin-typescript@2.5.9",
-      "tsx": "github:frankwallis/plugin-typescript@2.5.9"
+      "ts": "github:frankwallis/plugin-typescript@^2.6.0",
+      "tsx": "github:frankwallis/plugin-typescript@^2.6.0"
     }
   }
 }
