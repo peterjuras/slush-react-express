@@ -6,7 +6,7 @@ const ErrorComponent = (props : ErrorMessage) => (
   <PageComponent title="Error">
     <h1>{`${props.status} - ${props.title}`}</h1>
     <p>{props.message}</p>
-    <p>{process.env.NODE_ENV === 'production' ? '' : props.stack}</p>
+    <pre>{process.env.NODE_ENV === 'production' ? '' : props.stack}</pre>
   </PageComponent>
 );
 
