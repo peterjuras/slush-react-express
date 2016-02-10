@@ -1,6 +1,11 @@
 Changelog - slush-react-express
 ==============
 
+# 3.5.0
+
+* Dependency updates for all templates
+* Most notably: Using babel 6 for server-side templates and tests in the Full/JavaScript template.
+
 # 3.4.0
 
 * Switched Full/TypeScript template and generator from tsd to typings due to [deprecation](https://github.com/DefinitelyTyped/tsd/issues/269).

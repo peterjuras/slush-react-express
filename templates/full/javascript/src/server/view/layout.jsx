@@ -11,4 +11,4 @@ const PageComponent = props => (
   </html>
 );
 
-export default PageComponent;
+module.exports = PageComponent;

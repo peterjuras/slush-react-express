@@ -1,6 +1,7 @@
 'use strict';
 
 import app from './app';
+import * as path from 'path';
 import * as http from 'http';
 
 function normalizePort(val : string) : (string | Number | boolean) {
@@ -36,6 +37,7 @@ if (process.env['gulp:watch']) {
   require('chokidar-socket-emitter')({
     path: 'src/client/app',
     app: server,
+    dir: path.join(__dirname, '..', '..'),
     relativeTo: 'src/client/app/',
   });
 }

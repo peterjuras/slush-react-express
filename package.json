@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/peterjuras/slush-react-express#readme",
   "dependencies": {
-    "empty-dir": "^0.1.0",
+    "empty-dir": "^0.2.0",
     "event-stream": "^3.3.1",
     "gulp": "^3.9.0",
     "gulp-conflict": "^0.4.0",
@@ -38,7 +38,7 @@
     "gulp-json-editor": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^3.0.0",
-    "inquirer": "^0.10.1",
+    "inquirer": "^0.12.0",
     "run-sequence": "^1.1.4",
     "validate-npm-package-name": "^2.2.2"
   },
@@ -48,7 +48,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",
     "mock-gulp-dest": "^0.1.1",
-    "should": "^7.1.0",
+    "should": "^8.2.2",
     "typescript": "^1.6.2"
   }
 }

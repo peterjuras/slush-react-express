@@ -4,21 +4,23 @@
   "scripts": {
     "start": "node src/server/server.js",
     "test": "npm run test-client && npm run test-server",
-    "test-client": "mocha test/client/ --compilers js:babel-core/register --require=env-test",
+    "test-client": "mocha test/client/ --compilers js:babel-register --require=env-test",
     "test-server": "mocha test/server/ --require=env-test",
     "postinstall": "jspm install"
   },
   "dependencies": {
     "express": "^4.13.3",
-    "express-react-views": "^0.9.0",
+    "express-react-views": "^0.10.0",
     "morgan": "^1.6.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
-    "babel-core": "^5.8.34",
-    "chokidar-socket-emitter": "^0.3.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.5.1",
+    "chokidar-socket-emitter": "^0.4.2",
     "del": "^2.1.0",
     "env-test": "^1.0.0",
     "gulp": "^3.9.0",
@@ -36,7 +38,7 @@
     "mkpath": "^1.0.0",
     "mocha": "^2.3.4",
     "react-addons-test-utils": "^0.14.3",
-    "should": "^7.1.1",
+    "should": "^8.2.2",
     "superagent": "^1.4.0"
   },
   "jspm": {
