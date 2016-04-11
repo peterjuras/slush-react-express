@@ -4,3 +4,4 @@ node_modules
 typings
 /*.js
 npm-debug.log
+.DS_Store

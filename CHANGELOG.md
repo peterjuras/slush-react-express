@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 4.0.0
+
+* Updated all React versions to 15.0.1
+
 # 3.6.0
 
 * Upgraded Full/TypeScript template to TypeScript 1.8.

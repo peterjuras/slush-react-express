@@ -66,8 +66,8 @@ describe('slush-react-express', function () {
       it('should add vendor libraries to the vendor folder', done => {
         generate(() => {
           mockGulpDest.assertDestContains('public/javascripts/vendor/babel-core.browser.5.8.34.js');
-          mockGulpDest.assertDestContains('public/javascripts/vendor/react.0.14.7.js');
-          mockGulpDest.assertDestContains('public/javascripts/vendor/react-dom.0.14.7.js');
+          mockGulpDest.assertDestContains('public/javascripts/vendor/react.15.0.1.js');
+          mockGulpDest.assertDestContains('public/javascripts/vendor/react-dom.15.0.1.js');
           done();
         });
       });
