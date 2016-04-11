@@ -13,8 +13,8 @@
     "express": "^4.13.3",
     "express-react-views": "^0.10.0",
     "morgan": "^1.6.1",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "jspm": "^0.16.15",
     "mkpath": "^1.0.0",
     "mocha": "^2.3.4",
-    "react-addons-test-utils": "^0.14.3",
+    "react-addons-test-utils": "^15.0.1",
     "should": "^8.2.2",
     "superagent": "^1.4.0",
     "ts-node": "^0.5.4",
@@ -48,8 +48,8 @@
       "baseURL": "src/client/app"
     },
     "devDependencies": {
-      "react": "npm:react@^0.14.3",
-      "react-dom": "npm:react-dom@^0.14.3",
+      "react": "npm:react@^15.0.1",
+      "react-dom": "npm:react-dom@^15.0.1",
       "babel": "npm:babel-core@^5.8.24",
       "capaj/systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.5",
       "core-js": "npm:core-js@^1.1.4",
