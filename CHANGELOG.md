@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 4.2.0
+
+* Fixed hot reloading in full templates
+
 # 4.0.0
 
 * Updated all React versions to 15.0.1
