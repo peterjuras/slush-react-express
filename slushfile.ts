@@ -3,7 +3,8 @@ import install = require('gulp-install');
 import conflict = require('gulp-conflict');
 import template = require('gulp-template');
 // Inquirer typings are not updated to 1.0 yet
-const inquirer = require('inquirer');
+// const inquirer = require('inquirer');
+import inquirer = require('inquirer');
 import rename = require('gulp-rename');
 import emptyDir = require('empty-dir');
 import jsonEditor = require('gulp-json-editor');
@@ -18,8 +19,7 @@ const es = require('event-stream');
 const dest = process.env.testDest || './';
 let appName: string;
 
-// interface MinimalAnswers extends inquirer.Answers {
-interface MinimalAnswers {
+interface MinimalAnswers extends inquirer.Answers {
   appname: string;
   type: string;
   createDir: boolean;
@@ -73,8 +73,7 @@ function generate(callback: gulp.TaskCallback) {
 
 function generateMinimal(done: gulp.TaskCallback) {
   emptyDir('./', (err: any, dirEmpty: boolean) => {
-    // const questions: inquirer.Question[] = [];
-    const questions: any[] = [];
+    const questions: inquirer.Question[] = [];
     if (dest === './' && !dirEmpty) {
       questions.push({
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
@@ -119,8 +118,7 @@ function generateMinimal(done: gulp.TaskCallback) {
 
 function generateFull(done: gulp.TaskCallback) {
   emptyDir('./', function(err: any, dirEmpty: boolean) {
-    // const questions: inquirer.Question[] = [
-    const questions: any[] = [
+    const questions: inquirer.Question[] = [
       {
         type: 'list',
         name: 'ts',
