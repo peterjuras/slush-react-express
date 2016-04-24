@@ -20,7 +20,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.5.1",
-    "chokidar-socket-emitter": "^0.4.2",
+    "chokidar-socket-emitter": "^0.5.1",
     "del": "^2.1.0",
     "env-test": "^1.0.0",
     "gulp": "^3.9.0",
