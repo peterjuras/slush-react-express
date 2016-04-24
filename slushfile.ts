@@ -2,7 +2,8 @@ import gulp = require('gulp');
 import install = require('gulp-install');
 import conflict = require('gulp-conflict');
 import template = require('gulp-template');
-import inquirer = require('inquirer');
+// Inquirer typings are not updated to 1.0 yet
+const inquirer = require('inquirer');
 import rename = require('gulp-rename');
 import emptyDir = require('empty-dir');
 import jsonEditor = require('gulp-json-editor');
@@ -17,7 +18,8 @@ const es = require('event-stream');
 const dest = process.env.testDest || './';
 let appName: string;
 
-interface MinimalAnswers extends inquirer.Answers {
+// interface MinimalAnswers extends inquirer.Answers {
+interface MinimalAnswers {
   appname: string;
   type: string;
   createDir: boolean;
@@ -58,7 +60,7 @@ function generate(callback: gulp.TaskCallback) {
       message: 'Would you like to use a minimal or a full (gulp builds, tests, production settings) template?',
       choices: ['Minimal', 'Full'],
       default: 0
-    }], (answers: MinimalAnswers) => {
+    }]).then((answers: MinimalAnswers) => {
       const cleanedAnswers = cleanName(answers);
       appName = cleanedAnswers.appname;
       if (cleanedAnswers.type.indexOf('Full') !== -1) {
@@ -71,13 +73,14 @@ function generate(callback: gulp.TaskCallback) {
 
 function generateMinimal(done: gulp.TaskCallback) {
   emptyDir('./', (err: any, dirEmpty: boolean) => {
-    const questions: inquirer.Question[] = [];
+    // const questions: inquirer.Question[] = [];
+    const questions: any[] = [];
     if (dest === './' && !dirEmpty) {
       questions.push({
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
       });
     }
-    inquirer.prompt(questions, (answers: MinimalAnswers) => {
+    inquirer.prompt(questions).then((answers: MinimalAnswers) => {
       answers.appname = appName;
       let destination: string;
       if (answers.createDir) {
@@ -116,7 +119,8 @@ function generateMinimal(done: gulp.TaskCallback) {
 
 function generateFull(done: gulp.TaskCallback) {
   emptyDir('./', function(err: any, dirEmpty: boolean) {
-    const questions: inquirer.Question[] = [
+    // const questions: inquirer.Question[] = [
+    const questions: any[] = [
       {
         type: 'list',
         name: 'ts',
@@ -140,7 +144,7 @@ function generateFull(done: gulp.TaskCallback) {
         type: 'confirm', name: 'createDir', message: 'The current folder is not empty, do you want to create a new folder?', default: true
       });
     }
-    inquirer.prompt(questions, function(answers: FullAnswers) {
+    inquirer.prompt(questions).then(function(answers: FullAnswers) {
       let destination: string;
       if (answers.createDir) {
         destination = dest + appName + '/';

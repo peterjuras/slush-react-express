@@ -1,7 +1,8 @@
-import inquirer = require('inquirer');
+const inquirer = require('inquirer');
 
-export default function mockPrompt(answers: inquirer.Answers) {
-  inquirer.prompt = (prompts, done) : any => {
+// export default function mockPrompt(answers: inquirer.Answers) {
+export default function mockPrompt(answers: any) {
+  inquirer.prompt = (prompts: Object) : Promise<any[]> => {
 
     [].concat(prompts).forEach(prompt => {
       if (!(prompt.name in answers)) {
@@ -9,6 +10,8 @@ export default function mockPrompt(answers: inquirer.Answers) {
       }
     });
 
-    done(answers);
+    return new Promise((resolve, reject) => {
+      resolve(answers);
+    });
   };
 };
