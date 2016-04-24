@@ -3,7 +3,7 @@ import { NameLoaderView, SharedProps } from './NameLoaderView';
 
 // React component that handles the button click
 export default class NameLoader extends React.Component<SharedProps, { appName: string }> {
-  constructor(props : SharedProps) {
+  constructor(props: SharedProps) {
     super(props);
 
     this.state = { appName: '' };
