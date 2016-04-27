@@ -2,8 +2,6 @@ import gulp = require('gulp');
 import install = require('gulp-install');
 import conflict = require('gulp-conflict');
 import template = require('gulp-template');
-// Inquirer typings are not updated to 1.0 yet
-// const inquirer = require('inquirer');
 import inquirer = require('inquirer');
 import rename = require('gulp-rename');
 import emptyDir = require('empty-dir');
@@ -60,15 +58,15 @@ function generate(callback: gulp.TaskCallback) {
       message: 'Would you like to use a minimal or a full (gulp builds, tests, production settings) template?',
       choices: ['Minimal', 'Full'],
       default: 0
-    }]).then((answers: MinimalAnswers) => {
-      const cleanedAnswers = cleanName(answers);
-      appName = cleanedAnswers.appname;
-      if (cleanedAnswers.type.indexOf('Full') !== -1) {
-        run('generate:full', callback);
-      } else {
-        run('generate:minimal', callback);
-      }
-    });
+  }]).then((answers: MinimalAnswers) => {
+    const cleanedAnswers = cleanName(answers);
+    appName = cleanedAnswers.appname;
+    if (cleanedAnswers.type.indexOf('Full') !== -1) {
+      run('generate:full', callback);
+    } else {
+      run('generate:minimal', callback);
+    }
+  });
 }
 
 function generateMinimal(done: gulp.TaskCallback) {

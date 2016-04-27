@@ -28,6 +28,6 @@
     "vinyl": "github:DefinitelyTyped/DefinitelyTyped/vinyl/vinyl.d.ts#3d71d30f8b36450c556cc1aac737206d80fec646"
   },
   "dependencies": {
-    "inquirer": "github:peterjuras/npm-inquirer#fa7f1ce41342005f2c951251dc9c3f81618abfb7"
+    "inquirer": "registry:npm/inquirer#1.0.0+20160427045422"
   }
 }
