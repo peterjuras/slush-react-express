@@ -40,7 +40,6 @@ cd my-react-express-app
 Run the generator:
 
 ```bash
-
 slush react-express
 ```
 
