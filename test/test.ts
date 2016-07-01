@@ -2,7 +2,7 @@ require('should');
 import gulp = require('gulp');
 import mockPrompt from './util/mock';
 import path = require('path');
-import mockGulpDestModule = require('mock-gulp-dest');
+const mockGulpDestModule = require('mock-gulp-dest');
 const mockGulpDest = mockGulpDestModule(gulp);
 
 import generate from '../slushfile';
