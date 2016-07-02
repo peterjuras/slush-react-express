@@ -6,7 +6,7 @@ before_install:
 before_script:
   - typings install
 node_js:
-  - "5.11"
+  - "6"
   - "4.4"
   - "4.3"
   - "4.2"
