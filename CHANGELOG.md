@@ -1,6 +1,10 @@
 Changelog - slush-react-express
 ==============
 
+# 4.3.0
+
+* Update minimal template to latest React version and use babel-standalone
+
 # 4.2.0
 
 * Fixed hot reloading in full templates
