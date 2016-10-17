@@ -1,5 +1,11 @@
-slush-react-express
+**!!!DEPRECATED!!!** slush-react-express
 ==============
+
+## Deprecated
+
+slush-react-express has been deprecated in favor of the [create-react-app]() CLI. If you want to scaffold TypeScript projects, [support this issue](https://github.com/facebookincubator/create-react-app/issues/142).
+
+## slush-react-express
 
 [![npm version](https://badge.fury.io/js/slush-react-express.svg)](http://badge.fury.io/js/slush-react-express) [![Build Status](https://travis-ci.org/peterjuras/slush-react-express.svg?branch=master)](https://travis-ci.org/peterjuras/slush-react-express)
 
